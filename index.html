@@ -110,7 +110,7 @@ footer.foot .lnks{display:flex;gap:14px;white-space:nowrap}
 .fg{display:flex;flex-wrap:wrap;gap:11px;margin-top:11px}
 .fg>.fr{flex:1 1 150px;margin-top:0}
 .admin label.l{display:block;margin:0 0 3px;font-size:11.5px;color:var(--ink-2)}
-.admin input[type=text],.admin input[type=number],.admin input[type=password],.admin select,.admin textarea{width:100%;font:400 13.5px var(--body);color:var(--ink);padding:7px 10px;background:var(--card-2);border:2px solid var(--rule-2);border-radius:var(--radius)}
+.admin input[type=text],.admin input[type=number],.admin input[type=password],.admin select,.admin textarea{width:100%;font:400 13.5px var(--body);color:var(--ink);padding:11px 13px;background:var(--card-2);border:2px solid var(--rule-2);border-radius:var(--radius)}
 .admin input:focus-visible,.admin select:focus-visible,.admin textarea:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 .admin textarea{min-height:80px;resize:vertical;font:400 12px var(--body)}
 .plist{display:flex;flex-direction:column;margin-top:9px}
@@ -120,9 +120,8 @@ footer.foot .lnks{display:flex;gap:14px;white-space:nowrap}
 table.grid{width:100%;border-collapse:collapse;margin-top:11px;font-variant-numeric:tabular-nums}
 table.grid th{font:700 9.5px/1 var(--body);letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);text-align:right;padding:0 6px 6px;border-bottom:2px solid var(--rule-2)}
 table.grid th:first-child{text-align:left}
-table.grid td{padding:4px 6px;border-bottom:1px solid var(--rule);text-align:right}
+table.grid td{padding:9px 6px;border-bottom:1px solid var(--rule);text-align:right}
 table.grid td:first-child{text-align:left;font-size:12.5px}
-table.grid input{width:3.4rem;text-align:right;padding:4px 6px;font:400 12.5px var(--body);background:var(--card-2);border:2px solid var(--rule-2);border-radius:var(--radius);color:var(--ink)}
 table.grid .gp{font:400 15px var(--display)}
 .btn{appearance:none;font:700 13px var(--body);padding:9px 18px;border-radius:var(--radius-pill);border:2px solid var(--ink);background:var(--brand);color:var(--brand-ink);cursor:pointer}
 .btn.o{background:none;border-color:var(--rule-2);color:var(--ink)}
@@ -155,16 +154,21 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
 .hero-actions .btn:nth-child(2){animation-delay:1.07s}
 .btn.big{padding:15px 26px;font-size:14px}
 .home-foot{justify-content:center;text-align:center;margin-top:30px}
-.home-foot .madeby{margin-top:0;padding-top:0;border-top:0}
+.home-foot .credit-row{border-top:0;padding-top:0;margin-top:0}
 @keyframes card-flip{0%{opacity:0;transform:perspective(1000px) rotateY(-95deg) translateY(20px) scale(.93)}55%{opacity:1}100%{opacity:1;transform:perspective(1000px) rotateY(0deg) translateY(0) scale(1)}}
 @keyframes shine{0%{transform:translateX(-80%) rotate(0deg)}100%{transform:translateX(680%) rotate(0deg)}}
 @keyframes rise-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-.info{margin:4px auto 0;max-width:600px}
+.info{margin-top:4px}
 .info-block{padding:18px 0;border-top:1px solid var(--rule)}
 .info-block:first-child{border-top:0}
 .info-block h2{margin:0 0 8px;font:400 21px/1.05 var(--display);text-transform:uppercase;letter-spacing:.01em}
-.info-block p{margin:0;color:var(--ink-2);line-height:1.65}
+.info-block p{margin:0;color:var(--ink-2);line-height:1.65;max-width:56ch}
+@media (min-width:680px){
+  .info{display:grid;grid-template-columns:1.3fr 1fr;column-gap:56px;align-items:start}
+  .info-block{border-top:0}
+  .info-block+.info-block{border-top:0;border-left:1px solid var(--rule);margin-left:-28px;padding-left:28px}
+}
 .info-block p.venue{font-size:13.5px}
 .info-block p.venue a{color:var(--accent);font-weight:700;text-decoration:none;border-bottom:2px solid var(--rule-2)}
 .info-block p.venue a:hover{border-color:var(--accent)}
@@ -180,7 +184,7 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
 </head>
 <body>
 <div id="app"><noscript>Esta página necesita JavaScript activado para mostrar la tabla de posiciones.</noscript></div>
-<script type="application/json" id="state">{"meta":{"leagueName":"Liga de Truco Ushuaia","subtitle":"","tagline":"32 parejas. Una temporada. Un campeón.","season":"2026","fecha":1,"totalFechas":14,"updatedAt":"2026-09-19","resultPts":{"campeon":100,"subcampeon":70,"semifinalista":45,"cuartofinalista":30,"r16":15,"r32":5,"ausente":0},"adminHash":"cyrb53:164fe814c289fb","regions":[{"id":"ushuaia","label":"Ushuaia"}],"defaultRegion":"ushuaia","demo":false,"info":{"premios":"Campeón de liga: 1º $1.500.000 · 2º $300.000 · 3º regalos.\nCampeón de fecha: 1º $300.000 · 2º $100.000 · 3º regalos.","organiza":"Kevin Alexander y Truco Club","sede":"Birra del Fuego","direccion":"Soberanía Nacional 1662, Ushuaia","mapsUrl":"https://www.google.com/maps/search/?api=1&query=Birra%20del%20Fuego%2C%20Soberan%C3%ADa%20Nacional%201662%2C%20Ushuaia","redes":"truco_club\nkevinalexander.kr\nbirradelfuego"}},"pairs":[{"id":"p01","name":"","p1":"Andrés Paredes","p2":"Kevin Escobar"},{"id":"p02","name":"","p1":"Juan Barrios","p2":"Vanina Roldán"},{"id":"p03","name":"","p1":"Pablo Méndez","p2":"Damián Cáceres"},{"id":"p04","name":"","p1":"Ezequiel Figueroa","p2":"Valentina Castro"},{"id":"p05","name":"","p1":"Marcelo Luna","p2":"Emiliano Quiroga"},{"id":"p06","name":"","p1":"Cristian Rojas","p2":"Darío Ibáñez"},{"id":"p07","name":"","p1":"Hernán Ojeda","p2":"Nahuel Sosa"},{"id":"p08","name":"","p1":"Facundo Ávalos","p2":"Gonzalo Ferreyra"},{"id":"p09","name":"","p1":"Martín Bustos","p2":"Ramiro Ruiz"},{"id":"p10","name":"","p1":"Bruno Vera","p2":"Joaquín Ortiz"},{"id":"p11","name":"","p1":"Alan Sánchez","p2":"Lucía Vega"},{"id":"p12","name":"","p1":"Carla Villagra","p2":"Diego Cabrera"},{"id":"p13","name":"","p1":"Maximiliano Pérez","p2":"Romina Ledesma"},{"id":"p14","name":"","p1":"Camila Chávez","p2":"Walter Godoy"},{"id":"p15","name":"","p1":"Lucas Fernández","p2":"Julieta Ramírez"},{"id":"p16","name":"","p1":"Julián Gutiérrez","p2":"Natalia Coria"},{"id":"p17","name":"","p1":"Carolina Miranda","p2":"Nicolás Gómez"},{"id":"p18","name":"","p1":"Franco Toledo","p2":"Lautaro Álvarez"},{"id":"p19","name":"","p1":"Adrián Suárez","p2":"Gastón Ponce"},{"id":"p20","name":"","p1":"Leandro Villalba","p2":"Ignacio Benítez"},{"id":"p21","name":"","p1":"Noelia Molina","p2":"Daniela Herrera"},{"id":"p22","name":"","p1":"Yamila Cejas","p2":"Gabriela Correa"},{"id":"p23","name":"","p1":"Rodrigo Ríos","p2":"Rocío García"},{"id":"p24","name":"","p1":"Rubén Morales","p2":"Tomás Cardozo"},{"id":"p25","name":"","p1":"Guillermo Romero","p2":"Brenda Silva"},{"id":"p26","name":"","p1":"Santiago Díaz","p2":"Sofía Torres"},{"id":"p27","name":"","p1":"Mariano Bravo","p2":"Florencia Domínguez"},{"id":"p28","name":"","p1":"Paula Aguirre","p2":"Débora Peralta"},{"id":"p29","name":"","p1":"Agustina Rodríguez","p2":"Micaela Maldonado"},{"id":"p30","name":"","p1":"Soledad López","p2":"Matías Pereyra"},{"id":"p31","name":"","p1":"Antonella Acosta","p2":"Federico Almada"},{"id":"p32","name":"","p1":"Sergio Núñez","p2":"Melina Paredes"}],"standings":{"ushuaia":{"p01":{"pts":0,"titulos":0,"finales":0,"semis":0,"fj":0,"prevRank":0},"p02":{"pts":0,"titulos":0,"finales":0,"semis":0,"fj":0,"prevRank":0},"p03":{"pts":0,"titulos":0,"finales":0,"semis":0,"fj":0,"prevRank":0},"p04":{"pts":0,"titulos":0,"finales":0,"semis":0,"fj":0,"prevRank":0},"p05":{"pts":0,"titulos":0,"finales":0,"semis":0,"fj":0,"prevRank":0},"p06":{"pts":0,"titulos":0,"finales":0,"semis":0,"fj":0,"prevRank":0},"p07":{"pts":0,"titulos":0,"finales":0,"semis":0,"fj":0,"prevRank":0},"p08":{"pts":0,"titulos":0,"finales":0,"semis":0,"fj":0,"prevRank":0},"p09":{"pts":0,"titulos":0,"finales":0,"semis":0,"fj":0,"prevRank":0},"p10":{"pts":0,"titulos":0,"finales":0,"semis":0,"fj":0,"prevRank":0},"p11":{"pts":0,"titulos":0,"finales":0,"semis":0,"fj":0,"prevRank":0},"p12":{"pts":0,"titulos":0,"finales":0,"semis":0,"fj":0,"prevRank":0},"p13":{"pts":0,"titulos":0,"finales":0,"semis":0,"fj":0,"prevRank":0},"p14":{"pts":0,"titulos":0,"finales":0,"semis":0,"fj":0,"prevRank":0},"p15":{"pts":0,"titulos":0,"finales":0,"semis":0,"fj":0,"prevRank":0},"p16":{"pts":0,"titulos":0,"finales":0,"semis":0,"fj":0,"prevRank":0},"p17":{"pts":0,"titulos":0,"finales":0,"semis":0,"fj":0,"prevRank":0},"p18":{"pts":0,"titulos":0,"finales":0,"semis":0,"fj":0,"prevRank":0},"p19":{"pts":0,"titulos":0,"finales":0,"semis":0,"fj":0,"prevRank":0},"p20":{"pts":0,"titulos":0,"finales":0,"semis":0,"fj":0,"prevRank":0},"p21":{"pts":0,"titulos":0,"finales":0,"semis":0,"fj":0,"prevRank":0},"p22":{"pts":0,"titulos":0,"finales":0,"semis":0,"fj":0,"prevRank":0},"p23":{"pts":0,"titulos":0,"finales":0,"semis":0,"fj":0,"prevRank":0},"p24":{"pts":0,"titulos":0,"finales":0,"semis":0,"fj":0,"prevRank":0},"p25":{"pts":0,"titulos":0,"finales":0,"semis":0,"fj":0,"prevRank":0},"p26":{"pts":0,"titulos":0,"finales":0,"semis":0,"fj":0,"prevRank":0},"p27":{"pts":0,"titulos":0,"finales":0,"semis":0,"fj":0,"prevRank":0},"p28":{"pts":0,"titulos":0,"finales":0,"semis":0,"fj":0,"prevRank":0},"p29":{"pts":0,"titulos":0,"finales":0,"semis":0,"fj":0,"prevRank":0},"p30":{"pts":0,"titulos":0,"finales":0,"semis":0,"fj":0,"prevRank":0},"p31":{"pts":0,"titulos":0,"finales":0,"semis":0,"fj":0,"prevRank":0},"p32":{"pts":0,"titulos":0,"finales":0,"semis":0,"fj":0,"prevRank":0}}}}</script>
+<script type="application/json" id="state">{"meta":{"leagueName":"Liga de Truco Ushuaia","subtitle":"","tagline":"32 parejas. Una temporada. Un campeón.","season":"2026","fecha":1,"totalFechas":14,"updatedAt":"2026-09-19","resultPts":{"campeon":100,"subcampeon":70,"semifinalista":45,"cuartofinalista":30,"r16":15,"r32":5,"ausente":0},"adminHash":"cyrb53:164fe814c289fb","regions":[{"id":"ushuaia","label":"Ushuaia"}],"defaultRegion":"ushuaia","demo":false,"info":{"premios":"Campeón de liga: 1º $1.500.000 · 2º $300.000 · 3º regalos.\nCampeón de fecha: 1º $300.000 · 2º $100.000 · 3º regalos.","organiza":"Kevin Alexander y Truco Club","sede":"Birra del Fuego","direccion":"Soberanía Nacional 1662, Ushuaia","mapsUrl":"https://www.google.com/maps/search/?api=1&query=Birra%20del%20Fuego%2C%20Soberan%C3%ADa%20Nacional%201662%2C%20Ushuaia","redes":"truco_club\nkevinalexander.kr\nbirradelfuego"}},"pairs":[],"standings":{"ushuaia":{}}}</script>
 <script id="logic">
 (function () {
   "use strict";
@@ -392,7 +396,7 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
           "</div>" +
         "</div>" +
         '<footer class="foot home-foot">' +
-          madeByHTML() +
+          '<div class="credit-row">' + creditHTML(m) + madeByHTML() + "</div>" +
         "</footer>" +
       "</div>";
     navClicks(app);
@@ -708,7 +712,7 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
     view.dirty = true; saveDraft(); renderAdmin();
   }
   function delPair(pid) {
-    if (!pid || !confirm("¿Quitar esta pareja y sus resultados en las tres sedes?")) return;
+    if (!pid || !confirm("¿Quitar esta pareja y sus resultados?")) return;
     state.pairs = state.pairs.filter(function (p) { return p.id !== pid; });
     state.meta.regions.forEach(function (r) { if (state.standings[r.id]) delete state.standings[r.id][pid]; });
     view.dirty = true; saveDraft(); renderAdmin();
