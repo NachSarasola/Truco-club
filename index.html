@@ -85,7 +85,7 @@ footer.foot .rule{max-width:60ch;display:flex;flex-direction:column;gap:4px;font
 footer.foot .rule-pts b{font-weight:800;color:var(--ink)}
 footer.foot .rule-tie{color:var(--ink-3);font-size:12px}
 footer.foot .credit{width:100%;font:400 22px/1 var(--script);color:var(--ink-3)}
-footer.foot .credit-row{width:100%;display:flex;flex-wrap:wrap;justify-content:flex-start;align-items:center;gap:12px;margin-top:18px;padding-top:14px;border-top:1px solid var(--rule)}
+footer.foot .credit-row{width:100%;display:flex;flex-wrap:wrap;justify-content:flex-start;align-items:center;gap:12px;margin-top:10px}
 footer.foot .credit-row .credit{width:auto}
 footer.foot .credit-row .madeby{width:auto;margin-top:0;margin-left:auto;padding-top:0;border-top:0}
 footer.foot .lnks{display:flex;gap:14px;white-space:nowrap}
@@ -155,6 +155,8 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
 .btn.big{padding:15px 26px;font-size:14px}
 .home-foot{justify-content:center;text-align:center;margin-top:30px}
 .home-foot .credit-row{border-top:0;padding-top:0;margin-top:0}
+.info-cta{display:flex;justify-content:center;padding-top:22px}
+.info-foot .madeby{border-top:0;padding-top:0;margin-top:0}
 @keyframes card-flip{0%{opacity:0;transform:perspective(1000px) rotateY(-95deg) translateY(20px) scale(.93)}55%{opacity:1}100%{opacity:1;transform:perspective(1000px) rotateY(0deg) translateY(0) scale(1)}}
 @keyframes shine{0%{transform:translateX(-80%) rotate(0deg)}100%{transform:translateX(680%) rotate(0deg)}}
 @keyframes rise-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
@@ -425,8 +427,8 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
             (socials ? '<div class="socials">' + socials + "</div>" : "") +
           "</section>" +
         "</div>" +
-        '<footer class="foot">' +
-          '<span class="lnks"><button class="lk" type="button" data-a="board">Tabla de posiciones</button></span>' +
+        '<div class="info-cta"><button class="btn big o" type="button" data-a="board">Tabla de posiciones</button></div>' +
+        '<footer class="foot info-foot">' +
           madeByHTML() +
         "</footer>" +
       "</div>";
