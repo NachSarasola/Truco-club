@@ -66,19 +66,18 @@ input[type="search"]:focus-visible{outline:2px solid var(--accent);outline-offse
 table.pos{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums lining-nums;font-size:16px}
 table.pos thead th{font:700 11.5px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);text-align:right;padding:0 10px 8px;border-bottom:3px solid var(--bg);white-space:nowrap}
 table.pos thead th.pos,table.pos thead th.par{text-align:left}
-table.pos tbody td{padding:11px 10px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
-table.pos tbody td.pos{text-align:left;color:var(--ink-3);font:700 15px/1 var(--body);width:2.9rem}
+table.pos tbody td{padding:13px 10px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap;vertical-align:middle}
+table.pos tbody td.pos{text-align:left;color:var(--ink-3);font:700 15px/1 var(--body);width:3rem}
 table.pos tbody td.pos .mv{margin-left:4px;font-size:11px;font-weight:800}
 .mv.up{color:var(--up)} .mv.down{color:var(--down)}
 table.pos tbody td.par{text-align:left;white-space:normal}
-.par .a{font-weight:700;font-size:16px}
-.par .b{display:block;font-size:12.5px;color:var(--ink-2);margin-top:2px}
+.par .a{font-weight:700;font-size:16.5px;line-height:1.25;display:inline-block}
 table.pos tbody td.pts{font:400 21px/1 var(--display);letter-spacing:.02em}
 table.pos tbody tr:hover td{background:var(--card-2)}
 table.pos tbody tr.top td.pos{color:var(--ink)}
 table.pos tbody tr.r1 td.pos .n{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;margin-left:-1px;border-radius:50%;background:var(--brand);color:var(--brand-ink);font-size:14px;font-weight:800}
 .emptyrow td{padding:24px 10px!important;text-align:center!important;color:var(--ink-2);font-style:italic}
-@media (max-width:560px){table.pos tbody td.par .b{display:none}table.pos tbody td{padding:9px 8px}}
+@media (max-width:560px){table.pos tbody td{padding:10px 8px;font-size:15px}table.pos tbody td.par .a{font-size:15.5px}table.pos tbody td.pts{font-size:19px}}
 
 footer.foot{margin:16px 0 26px;padding-top:14px!important;border-top:1px solid var(--rule);display:flex;flex-wrap:wrap;gap:6px 20px;justify-content:flex-start;font-size:11.5px;color:var(--ink-2)}
 footer.foot .rule{max-width:60ch;display:flex;flex-direction:column;gap:4px;font-size:13px}
@@ -114,14 +113,16 @@ footer.foot .lnks{display:flex;gap:14px;white-space:nowrap}
 .admin input:focus-visible,.admin select:focus-visible,.admin textarea:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 .admin textarea{min-height:80px;resize:vertical;font:400 12px var(--body)}
 .plist{display:flex;flex-direction:column;margin-top:9px}
-.pl{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:9px 0;border-bottom:1px solid var(--rule)}
-.pl .nm{grid-column:1/-1}
-.pl .rm{grid-column:1/-1;justify-self:end;appearance:none;border:0;background:none;color:var(--down);text-decoration:underline;text-underline-offset:2px;cursor:pointer;padding:0;font-size:11.5px}
+.pl{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--rule)}
+.pl .idx{flex:0 0 auto;font:700 12px/1 var(--body);color:var(--ink-3);min-width:24px;text-align:right}
+.pl input[type=text]{flex:1 1 auto;padding:9px 12px}
+.pl .rm{flex:0 0 auto;appearance:none;border:0;background:none;color:var(--down);text-decoration:underline;text-underline-offset:2px;cursor:pointer;padding:4px 6px;font-size:12px;white-space:nowrap}
+.pl .rm:hover{opacity:.8}
 table.grid{width:100%;border-collapse:collapse;margin-top:11px;font-variant-numeric:tabular-nums}
 table.grid th{font:700 9.5px/1 var(--body);letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);text-align:right;padding:0 6px 6px;border-bottom:2px solid var(--rule-2)}
 table.grid th:first-child{text-align:left}
 table.grid td{padding:9px 6px;border-bottom:1px solid var(--rule);text-align:right}
-table.grid td:first-child{text-align:left;font-size:12.5px}
+table.grid td:first-child{text-align:left;font-size:13.5px;font-weight:600}
 table.grid .gp{font:400 15px var(--display)}
 .btn{appearance:none;font:700 13px var(--body);padding:9px 18px;border-radius:var(--radius-pill);border:2px solid var(--ink);background:var(--brand);color:var(--brand-ink);cursor:pointer}
 .btn.o{background:none;border-color:var(--rule-2);color:var(--ink)}
@@ -186,7 +187,7 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
 </head>
 <body>
 <div id="app"><noscript>Esta página necesita JavaScript activado para mostrar la tabla de posiciones.</noscript></div>
-<script type="application/json" id="state">{"meta":{"leagueName":"Liga de Truco Ushuaia","subtitle":"","tagline":"32 parejas. Una temporada. Un campeón.","season":"2026","fecha":1,"totalFechas":14,"updatedAt":"2026-09-19","resultPts":{"campeon":100,"subcampeon":70,"tercero":55,"cuarto":40,"cuartofinalista":30,"r16":15,"r32":5,"ausente":0},"adminHash":"cyrb53:164fe814c289fb","regions":[{"id":"ushuaia","label":"Ushuaia"}],"defaultRegion":"ushuaia","demo":false,"info":{"premios":"Campeón de liga: 1º $1.300.000 · 2º $300.000 · 3º regalos.\nCampeón de fecha: 1º $300.000 · 2º $100.000 · 3º regalos.","organiza":"Kevin Alexander y Truco Club","sede":"Birra del Fuego","direccion":"Soberanía Nacional 1662, Ushuaia","mapsUrl":"https://www.google.com/maps/search/?api=1&query=Birra%20del%20Fuego%2C%20Soberan%C3%ADa%20Nacional%201662%2C%20Ushuaia","redes":"truco_club\nkevinalexander.kr\nbirradelfuego"}},"pairs":[],"standings":{"ushuaia":{}}}</script>
+<script type="application/json" id="state">{"meta":{"leagueName":"Liga de Truco Ushuaia","subtitle":"","tagline":"32 equipos. Una temporada. Un campeón.","season":"2026","fecha":1,"totalFechas":14,"updatedAt":"2026-09-19","resultPts":{"campeon":100,"subcampeon":70,"tercero":55,"cuarto":40,"cuartofinalista":30,"r16":15,"r32":5,"ausente":0},"adminHash":"cyrb53:164fe814c289fb","regions":[{"id":"ushuaia","label":"Ushuaia"}],"defaultRegion":"ushuaia","demo":false,"info":{"premios":"Campeón de liga: 1º $1.300.000 · 2º $300.000 · 3º regalos.\nCampeón de fecha: 1º $300.000 · 2º $100.000 · 3º regalos.","organiza":"Kevin Alexander y Truco Club","sede":"Birra del Fuego","direccion":"Soberanía Nacional 1662, Ushuaia","mapsUrl":"https://www.google.com/maps/search/?api=1&query=Birra%20del%20Fuego%2C%20Soberan%C3%ADa%20Nacional%201662%2C%20Ushuaia","redes":"truco_club\nkevinalexander.kr\nbirradelfuego"}},"pairs":[],"standings":{"ushuaia":{}}}</script>
 <script id="logic">
 (function () {
   "use strict";
@@ -244,7 +245,7 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
     var m = st.meta = st.meta || {};
     m.leagueName = m.leagueName || "Liga de Truco Ushuaia";
     m.subtitle = m.subtitle || "";
-    m.tagline = m.tagline || "32 parejas. Una temporada. Un campeón.";
+    m.tagline = m.tagline || "32 equipos. Una temporada. Un campeón.";
     m.season = m.season || String(new Date().getFullYear());
     m.fecha = num(m.fecha);
     m.totalFechas = hasInt(m.totalFechas) ? num(m.totalFechas) : 14;
@@ -265,9 +266,10 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
 
     st.pairs = (Array.isArray(st.pairs) ? st.pairs : []).map(function (p, i) {
       p = p || {};
+      var nm = p.name ? String(p.name) : (p.p1 || p.p2 ? (String(p.p1 || "") + (p.p2 ? " / " + String(p.p2) : "")).trim() : "");
       return {
         id: String(p.id || "p" + (i + 1 < 10 ? "0" : "") + (i + 1)),
-        name: String(p.name || ""), p1: String(p.p1 || ""), p2: String(p.p2 || "")
+        name: nm
       };
     });
 
@@ -317,7 +319,11 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
     rows.forEach(function (r, i) { r.rank = i + 1; r.mov = r.prevRank ? (r.prevRank - r.rank) : 0; });
     return rows;
   }
-  function label(p) { return p.name ? p.name : (surname(p.p1) + " / " + surname(p.p2)); }
+  function label(p) {
+    if (p.name && p.name.trim()) return p.name.trim();
+    if (p.p1 || p.p2) return (String(p.p1 || "") + (p.p2 ? " / " + String(p.p2) : "")).trim();
+    return "Equipo " + p.id;
+  }
 
   function initTheme() {
     var t = null;
@@ -419,7 +425,7 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
         '<div class="info">' +
           '<section class="info-block"><h2>Premios y puntos</h2>' +
             "<p>" + esc(m.info.premios).split("\n").join("<br>") + "</p>" +
-            '<p class="ptslabel">Puntos que suma cada pareja según lo que hizo en la fecha:</p>' +
+            '<p class="ptslabel">Puntos que suma cada equipo según lo que hizo en la fecha:</p>' +
             '<ul class="ptslist">' + ptsList + "</ul>" +
           "</section>" +
           '<section class="info-block"><h2>Sede</h2>' +
@@ -447,7 +453,7 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
     var posNum = r.rank === 1 ? '<span class="n">' + r.rank + "</span>" : r.rank;
     return "<tr" + (cls.length ? ' class="' + cls.join(" ") + '"' : "") + ">" +
       '<td class="pos">' + posNum + movHTML(r) + "</td>" +
-      '<td class="par"><span class="a">' + esc(label(r.pair)) + '</span><span class="b">' + esc(r.pair.p1 + " · " + r.pair.p2) + "</span></td>" +
+      '<td class="par"><span class="a">' + esc(label(r.pair)) + "</span></td>" +
       "<td>" + r.fj + "</td>" +
       "<td>" + r.titulos + "</td>" +
       '<td class="pts">' + r.pts + "</td></tr>";
@@ -467,11 +473,11 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
       '<div class="wrap">' +
         mastheadHTML(m, true) +
         '<div class="bar">' +
-          "<span>" + (view.query ? shown.length + " de " + rows.length + " parejas" : (m.demo ? "datos de ejemplo" : "")) + "</span>" +
-          '<input type="search" id="q" placeholder="Buscar jugador o pareja" value="' + esc(view.query) + '" autocomplete="off" spellcheck="false">' +
+          "<span>" + (view.query ? shown.length + " de " + rows.length + " equipos" : (m.demo ? "datos de ejemplo" : "")) + "</span>" +
+          '<input type="search" id="q" placeholder="Buscar equipo" value="' + esc(view.query) + '" autocomplete="off" spellcheck="false">' +
         "</div>" +
         '<div class="tw"><table class="pos"><thead><tr>' +
-          '<th class="pos">#</th><th class="par">Pareja</th>' +
+          '<th class="pos">#</th><th class="par">Equipo</th>' +
           '<th title="Fechas jugadas">FJ</th><th title="Fechas ganadas">Tít</th><th>Pts</th>' +
         "</tr></thead><tbody>" +
           (shown.length ? shown.map(function (r) { return rowHTML(r); }).join("")
@@ -489,7 +495,7 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
   }
 
   function matchQuery(r, q) {
-    var hay = (label(r.pair) + " " + r.pair.p1 + " " + r.pair.p2 + " " + (r.pair.name || "")).toLowerCase();
+    var hay = (label(r.pair) + " " + (r.pair.name || "")).toLowerCase();
     return q.toLowerCase().split(/\s+/).filter(Boolean).every(function (t) { return hay.indexOf(t) >= 0; });
   }
   function softBoard() {
@@ -500,7 +506,7 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
     if (tb) tb.innerHTML = shown.length ? shown.map(function (r) { return rowHTML(r); }).join("")
       : '<tr class="emptyrow"><td colspan="5">Sin resultados para “' + esc(view.query) + '”.</td></tr>';
     var b = app.querySelector(".bar span");
-    if (b) b.textContent = view.query ? shown.length + " de " + rows.length + " parejas" : (state.meta.demo ? "datos de ejemplo" : "");
+    if (b) b.textContent = view.query ? shown.length + " de " + rows.length + " equipos" : (state.meta.demo ? "datos de ejemplo" : "");
   }
 
   function wireBoard() {
@@ -575,10 +581,9 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
 
     var pairLines = state.pairs.map(function (p, i) {
       return '<div class="pl" data-pid="' + esc(p.id) + '">' +
-        '<input type="text" data-b="pair.' + esc(p.id) + '.p1" value="' + esc(p.p1) + '" placeholder="Jugador 1" aria-label="Pareja ' + (i + 1) + ' jugador 1">' +
-        '<input type="text" data-b="pair.' + esc(p.id) + '.p2" value="' + esc(p.p2) + '" placeholder="Jugador 2" aria-label="Pareja ' + (i + 1) + ' jugador 2">' +
-        '<input class="nm" type="text" data-b="pair.' + esc(p.id) + '.name" value="' + esc(p.name) + '" placeholder="Nombre o club (opcional)" aria-label="Pareja ' + (i + 1) + ' nombre">' +
-        '<button class="rm" type="button" data-a="delpair" data-pid="' + esc(p.id) + '" aria-label="Quitar pareja ' + (i + 1) + '">Quitar</button>' +
+        '<span class="idx">' + (i + 1) + '</span>' +
+        '<input type="text" data-b="pair.' + esc(p.id) + '.name" value="' + esc(p.name) + '" placeholder="Nombre del equipo" aria-label="Equipo ' + (i + 1) + '">' +
+        '<button class="rm" type="button" data-a="delpair" data-pid="' + esc(p.id) + '" aria-label="Quitar equipo ' + (i + 1) + '">Quitar</button>' +
       "</div>";
     }).join("");
 
@@ -603,19 +608,19 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
 
         '<div class="g"><p class="gh">Resultado de la fecha</p>' +
           '<div class="fr" style="max-width:140px"><label class="l">Fecha actual</label><input type="number" min="1" data-b="meta.fecha" value="' + m.fecha + '"></div>' +
-          '<div class="tw"><table class="grid"><thead><tr><th>Pareja</th><th>Pts acum.</th><th>Resultado de hoy</th></tr></thead><tbody>' +
+          '<div class="tw"><table class="grid"><thead><tr><th>Equipo</th><th>Pts acum.</th><th>Resultado de hoy</th></tr></thead><tbody>' +
             grid +
           "</tbody></table></div>" +
           '<button class="btn s" type="button" data-a="applyfecha" style="margin-top:9px">Aplicar resultados de esta fecha</button>' +
         "</div>" +
 
-        '<details class="bk g"' + (state.pairs.length === 0 ? " open" : "") + '><summary>Parejas (' + state.pairs.length + ")</summary>" +
-          '<button class="btn o s" type="button" data-a="addpair" style="margin-top:11px">Agregar pareja</button>' +
-          '<p style="font-size:11px;color:var(--ink-2);margin:7px 0 0">Escribí los dos nombres y apretá Enter: guarda y pasa a la próxima pareja sola.</p>' +
+        '<details class="bk g"' + (state.pairs.length === 0 ? " open" : "") + '><summary>Equipos (' + state.pairs.length + ")</summary>" +
+          '<button class="btn o s" type="button" data-a="addpair" style="margin-top:11px">Agregar equipo</button>' +
+          '<p style="font-size:11px;color:var(--ink-2);margin:7px 0 0">Escribí el nombre del equipo y apretá Enter: guarda y pasa al próximo equipo solo.</p>' +
           '<div class="plist" style="margin-top:11px">' + pairLines + "</div>" +
           '<details class="bk" style="margin-top:10px"><summary>Importar lista</summary>' +
-            '<p style="font-size:11px;color:var(--ink-2);margin:7px 0 5px">Una por línea: <code>Jugador 1; Jugador 2; nombre opcional</code>. Reemplaza todo y pone los resultados en cero.</p>' +
-            '<textarea id="ip"></textarea>' +
+            '<p style="font-size:11px;color:var(--ink-2);margin:7px 0 5px">Un equipo por línea. Reemplaza todo y pone los resultados en cero.</p>' +
+            '<textarea id="ip" placeholder="Los Cuervos&#10;Palo y A la Bolsa&#10;Birra Truco Club"></textarea>' +
             '<button class="btn o s" type="button" data-a="imppairs" style="margin-top:7px">Reemplazar</button></details>' +
         "</details>" +
 
@@ -648,7 +653,7 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
       "</div>";
     wireAdmin();
     if (view.focusPairId) {
-      var toFocus = app.querySelector('[data-b="pair.' + view.focusPairId + '.p1"]');
+      var toFocus = app.querySelector('[data-b="pair.' + view.focusPairId + '.name"]');
       if (toFocus) toFocus.focus();
       view.focusPairId = null;
     }
@@ -695,13 +700,7 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
       var b = el.getAttribute && el.getAttribute("data-b");
       if (!b || b.indexOf("pair.") !== 0) return;
       e.preventDefault();
-      var parts = b.split(".");
-      if (parts[2] === "p1") {
-        var p2 = app.querySelector('[data-b="pair.' + parts[1] + '.p2"]');
-        if (p2) p2.focus();
-      } else {
-        addPair();
-      }
+      addPair();
     });
     root.addEventListener("click", function (e) {
       var b = e.target.closest ? e.target.closest("[data-a]") : null;
@@ -729,14 +728,14 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
   function addPair() {
     var k = state.pairs.length + 1, id;
     do { id = "p" + (k < 10 ? "0" : "") + k; k++; } while (state.pairs.some(function (p) { return p.id === id; }));
-    state.pairs.push({ id: id, name: "", p1: "", p2: "" });
+    state.pairs.push({ id: id, name: "" });
     state.meta.regions.forEach(function (r) { state.standings[r.id][id] = blank(); });
     view.dirty = true; saveDraft();
     view.focusPairId = id;
     renderAdmin();
   }
   function delPair(pid) {
-    if (!pid || !confirm("¿Quitar esta pareja y sus resultados?")) return;
+    if (!pid || !confirm("¿Quitar este equipo y sus resultados?")) return;
     state.pairs = state.pairs.filter(function (p) { return p.id !== pid; });
     state.meta.regions.forEach(function (r) { if (state.standings[r.id]) delete state.standings[r.id][pid]; });
     view.dirty = true; saveDraft(); renderAdmin();
@@ -744,7 +743,7 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
   function applyFecha() {
     var region = view.adminRegion, picks = view.fechaPicks || {};
     var keys = Object.keys(picks).filter(function (pid) { return picks[pid]; });
-    if (!keys.length) { flash("Elegí el resultado de al menos una pareja antes de aplicar."); return; }
+    if (!keys.length) { flash("Elegí el resultado de al menos un equipo antes de aplicar."); return; }
     keys.forEach(function (pid) {
       var cell = state.standings[region][pid]; if (!cell) return;
       var res = picks[pid];
@@ -757,17 +756,18 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
     rankRows(region).forEach(function (r) { state.standings[region][r.pair.id].prevRank = r.rank; });
     view.fechaPicks = {};
     view.dirty = true; saveDraft();
-    flash("Aplicado a " + keys.length + " pareja" + (keys.length === 1 ? "" : "s") + ". No olvides descargar la página para publicarlo.");
+    flash("Aplicado a " + keys.length + " equipo" + (keys.length === 1 ? "" : "s") + ". No olvides descargar la página para publicarlo.");
     renderAdmin();
   }
   function impPairs() {
     var ta = app.querySelector("#ip");
     var lines = (ta ? ta.value : "").split("\n").map(function (l) { return l.trim(); }).filter(Boolean);
     if (!lines.length) return;
-    if (!confirm("Reemplazar las " + state.pairs.length + " parejas por " + lines.length + " y poner los resultados en cero?")) return;
+    if (!confirm("¿Reemplazar los " + state.pairs.length + " equipos por " + lines.length + " y poner los resultados en cero?")) return;
     state.pairs = lines.map(function (l, i) {
       var q = l.split(/[;|\t]/).map(function (s) { return s.trim(); });
-      return { id: "p" + (i + 1 < 10 ? "0" : "") + (i + 1), name: q[2] || "", p1: q[0] || "", p2: q[1] || "" };
+      var teamName = q.length === 1 ? q[0] : (q[2] ? q[2] : (q[0] + (q[1] ? " / " + q[1] : "")));
+      return { id: "p" + (i + 1 < 10 ? "0" : "") + (i + 1), name: teamName };
     });
     state.standings = {};
     state.meta.regions.forEach(function (r) {

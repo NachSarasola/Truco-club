@@ -44,12 +44,12 @@ la página (paso 3).
 ## 3. Cargar una fecha y publicarla
 
 Cada sábado se juega una fecha: un mini torneo eliminatorio por sede. Lo único
-que cargás es **qué le pasó a cada pareja** — el resultado ya trae los puntos
+que cargás es **qué le pasó a cada equipo** — el resultado ya trae los puntos
 fijos de esa ronda.
 
 1. Entrás al panel: lo primero que ves es *Resultado de la fecha*, con el
    número de fecha arriba.
-2. Para cada pareja, elegís su resultado de hoy: Campeón, Subcampeón,
+2. Para cada equipo, elegís su resultado de hoy: Campeón, Subcampeón,
    Semifinalista, Cuartofinalista, Eliminado en 16avos, Eliminado en 32avos, o
    dejás "Sin cambios" si no jugó. Los puntos entre paréntesis se suman al
    acumulado de temporada — no lo reemplazan.
@@ -67,16 +67,15 @@ nunca hace falta tocarlos — están en *Configuración avanzada → Puntos por
 resultado de fecha*, plegados porque se definen una vez al arrancar la
 temporada.
 
-## 4. Parejas
+## 4. Equipos
 
-Sección plegable *Parejas*: editás jugador 1 y jugador 2 de cada pareja,
-agregás o quitás. El campo *Nombre o club* es opcional; si lo dejás vacío, la
-pareja se muestra por los apellidos.
+Sección plegable *Equipos*: editás el nombre de cada equipo, agregás o quitás.
+Al escribir el nombre y presionar Enter, se guarda y pasa automáticamente al
+siguiente equipo.
 
-Para cargar las 32 reales de una: *Parejas → Importar lista*, una por línea
-con el formato `Jugador 1; Jugador 2; nombre opcional`. Esto también pone
-todos los resultados en cero — usalo antes de arrancar la temporada, la
-página trae 32 parejas de relleno para no arrancar vacía.
+Para cargar todos los equipos de una: *Equipos → Importar lista*, uno por línea
+con el nombre del equipo. Esto también pone todos los resultados en cero — usalo
+antes de arrancar la temporada.
 
 ## 5. Textos del sitio (nombre, premios, sede, redes)
 
@@ -99,6 +98,6 @@ y es indispensable antes de editar los textos del punto anterior.
 
 ## Tabla y reglas
 
-Columnas: `# · Pareja · FJ · Tít · Pts`. FJ es fechas jugadas, Tít es fechas
+Columnas: `# · Equipo · FJ · Tít · Pts`. FJ es fechas jugadas, Tít es fechas
 ganadas (campeonatos). Orden: puntos de temporada → fechas ganadas → finales
 alcanzadas → semifinales alcanzadas → nombre.
