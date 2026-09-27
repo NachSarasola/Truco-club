@@ -609,9 +609,10 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
           '<button class="btn s" type="button" data-a="applyfecha" style="margin-top:9px">Aplicar resultados de esta fecha</button>' +
         "</div>" +
 
-        '<details class="bk g"><summary>Parejas (' + state.pairs.length + ")</summary>" +
+        '<details class="bk g"' + (state.pairs.length === 0 ? " open" : "") + '><summary>Parejas (' + state.pairs.length + ")</summary>" +
+          '<button class="btn o s" type="button" data-a="addpair" style="margin-top:11px">Agregar pareja</button>' +
+          '<p style="font-size:11px;color:var(--ink-2);margin:7px 0 0">Escribí los dos nombres y apretá Enter: guarda y pasa a la próxima pareja sola.</p>' +
           '<div class="plist" style="margin-top:11px">' + pairLines + "</div>" +
-          '<button class="btn o s" type="button" data-a="addpair" style="margin-top:9px">Agregar pareja</button>' +
           '<details class="bk" style="margin-top:10px"><summary>Importar lista</summary>' +
             '<p style="font-size:11px;color:var(--ink-2);margin:7px 0 5px">Una por línea: <code>Jugador 1; Jugador 2; nombre opcional</code>. Reemplaza todo y pone los resultados en cero.</p>' +
             '<textarea id="ip"></textarea>' +
@@ -646,6 +647,11 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
         "</div>" +
       "</div>";
     wireAdmin();
+    if (view.focusPairId) {
+      var toFocus = app.querySelector('[data-b="pair.' + view.focusPairId + '.p1"]');
+      if (toFocus) toFocus.focus();
+      view.focusPairId = null;
+    }
   }
 
   function setBy(path, value) {
@@ -683,6 +689,20 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
         view.fechaPicks[el.getAttribute("data-fecha-pick")] = el.value;
       }
     });
+    root.addEventListener("keydown", function (e) {
+      if (e.key !== "Enter") return;
+      var el = e.target;
+      var b = el.getAttribute && el.getAttribute("data-b");
+      if (!b || b.indexOf("pair.") !== 0) return;
+      e.preventDefault();
+      var parts = b.split(".");
+      if (parts[2] === "p1") {
+        var p2 = app.querySelector('[data-b="pair.' + parts[1] + '.p2"]');
+        if (p2) p2.focus();
+      } else {
+        addPair();
+      }
+    });
     root.addEventListener("click", function (e) {
       var b = e.target.closest ? e.target.closest("[data-a]") : null;
       if (!b) return;
@@ -711,7 +731,9 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
     do { id = "p" + (k < 10 ? "0" : "") + k; k++; } while (state.pairs.some(function (p) { return p.id === id; }));
     state.pairs.push({ id: id, name: "", p1: "", p2: "" });
     state.meta.regions.forEach(function (r) { state.standings[r.id][id] = blank(); });
-    view.dirty = true; saveDraft(); renderAdmin();
+    view.dirty = true; saveDraft();
+    view.focusPairId = id;
+    renderAdmin();
   }
   function delPair(pid) {
     if (!pid || !confirm("¿Quitar esta pareja y sus resultados?")) return;
