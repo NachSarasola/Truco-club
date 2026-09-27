@@ -88,14 +88,24 @@ editan a mano por *Copia de seguridad*:
 3. **Importar JSON**, pegás el contenido editado y cargás.
 4. **Descargar página** como siempre.
 
-## 6. Copia de seguridad
+## 6. Publicación en vivo con Cloudflare KV
 
-*Panel → Copia de seguridad*: **Exportar JSON** guarda todos los datos en un
-archivo; **Importar JSON** los restaura. Conviene exportar de vez en cuando,
-y es indispensable antes de editar los textos del punto anterior.
+Para que al presionar **Publicar en vivo** desde el panel los cambios impacten al instante para todos los visitantes:
+
+1. Entrá a tu panel de **Cloudflare** (https://dash.cloudflare.com).
+2. En el menú lateral izquierdo andá a **Workers & Pages** → **KV**.
+3. Creá un nuevo espacio de nombres (namespace) con el nombre: **`TRUCO_KV`**.
+4. Ahora andá a **Workers & Pages** → hacé clic en tu proyecto de Pages (**`truco-club`**).
+5. Entrá en la pestaña **Settings** (Configuración) → **Functions**.
+6. Bajá hasta **KV namespace bindings** (Enlaces de espacio de nombres KV) y hacé clic en **Add binding**:
+   * **Variable name:** `TRUCO_KV`
+   * **KV namespace:** seleccioná `TRUCO_KV` (el que creaste en el paso 3).
+7. Hacé clic en **Save** (Guardar).
+
+¡Listo! A partir de ese momento, cada vez que apliques una fecha o cargues equipos en `#admin`, hacés clic en **Publicar en vivo** y todo el mundo verá los cambios al instante.
 
 ## Tabla y reglas
 
-Columnas: `# · Equipo · FJ · Tít · Pts`. FJ es fechas jugadas, Tít es fechas
-ganadas (campeonatos). Orden: puntos de temporada → fechas ganadas → finales
+Columnas: `# · Equipo · FJ · FG · Pts`. FJ es fechas jugadas, FG es fechas
+ganadas (campeonatos de fecha). Orden: puntos de temporada → fechas ganadas → finales
 alcanzadas → semifinales alcanzadas → nombre.

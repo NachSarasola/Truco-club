@@ -479,7 +479,7 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
         "</div>" +
         '<div class="tw"><table class="pos"><thead><tr>' +
           '<th class="pos">#</th><th class="par">Equipo</th>' +
-          '<th title="Fechas jugadas">FJ</th><th title="Fechas ganadas">Tít</th><th>Pts</th>' +
+          '<th title="Fechas jugadas">FJ</th><th title="Fechas ganadas">FG</th><th>Pts</th>' +
         "</tr></thead><tbody>" +
           (shown.length ? shown.map(function (r) { return rowHTML(r); }).join("")
             : '<tr class="emptyrow"><td colspan="5">Sin resultados para “' + esc(view.query) + '”.</td></tr>') +
@@ -654,11 +654,12 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
         "</details>" +
 
         '<div class="abar">' +
-          '<span class="st ' + (view.dirty ? "w" : "") + '">' + (view.dirty ? "Cambios sin publicar." : "Sin cambios pendientes.") + "</span>" +
-          '<button class="btn" type="button" data-a="download">Descargar página</button>' +
+          '<span class="st ' + (view.dirty ? "w" : "") + '">' + (view.dirty ? "Cambios sin publicar en vivo." : "Sin cambios pendientes.") + "</span>" +
+          '<button class="btn" type="button" data-a="publish">Publicar en vivo</button>' +
           '<button class="btn o" type="button" data-a="draft">Guardar borrador</button>' +
-          '<details class="bk" style="flex:1 1 100%"><summary>Copia de seguridad</summary>' +
-            '<p style="font-size:11px;color:var(--ink-2);margin:7px 0 5px">Exportá el JSON para editar a mano textos como premios, sede o redes, y volvé a importarlo.</p>' +
+          '<button class="btn o" type="button" data-a="download">Descargar página</button>' +
+          '<details class="bk" style="flex:1 1 100%"><summary>Copia de seguridad y hosting</summary>' +
+            '<p style="font-size:11px;color:var(--ink-2);margin:7px 0 5px">Con Cloudflare KV vinculado, <b>Publicar en vivo</b> actualiza la página al instante para todos los visitantes. También podés exportar el JSON o descargar el archivo HTML.</p>' +
             '<div style="display:flex;gap:9px;flex-wrap:wrap">' +
               '<button class="btn o s" type="button" data-a="expjson">Exportar JSON</button>' +
               '<button class="btn o s" type="button" data-a="impjson">Importar JSON</button></div></details>' +
@@ -728,6 +729,7 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
       else if (a === "imppairs") impPairs();
       else if (a === "setpw") setPw();
       else if (a === "applyfecha") applyFecha();
+      else if (a === "publish") publishLive();
       else if (a === "draft") { saveDraft(); flash("Borrador guardado en este navegador."); }
       else if (a === "download") downloadPage();
       else if (a === "expjson") expJSON();
@@ -915,9 +917,62 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
     } catch (e) { alert("No se pudo leer ese JSON."); }
   }
 
+  function fetchRemoteState() {
+    if (typeof fetch !== "function") return;
+    fetch("/api/state", { cache: "no-cache" })
+      .then(function (res) { return res.ok ? res.json() : null; })
+      .then(function (data) {
+        if (data && data.pairs && data.meta && !data.fallback) {
+          state = data;
+          normalize(state);
+          try { localStorage.setItem("ligaTruco.live", JSON.stringify(state)); } catch (e) {}
+          render();
+        }
+      })
+      .catch(function () {});
+  }
+
+  function publishLive() {
+    var btn = app.querySelector('[data-a="publish"]');
+    if (btn) btn.disabled = true;
+    flash("Publicando en Cloudflare KV...");
+    var auth = state.meta.adminHash;
+    var out = JSON.parse(JSON.stringify(state));
+    normalize(out);
+    out.meta.updatedAt = todayISO();
+
+    fetch("/api/state", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ state: out, auth: auth })
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (res) {
+      if (btn) btn.disabled = false;
+      if (res && res.ok) {
+        state = out;
+        normalize(state);
+        view.dirty = false;
+        saveDraft();
+        flash("✔ ¡Publicado en vivo con éxito!");
+        renderAdmin();
+      } else {
+        var err = (res && res.error) ? res.error : "No se pudo conectar con Cloudflare KV.";
+        flash("⚠ " + err);
+        alert("Aviso de publicación:\n\n" + err + "\n\nPara que la publicación en vivo funcione, asegurate de tener vinculado el namespace TRUCO_KV en tu proyecto de Cloudflare Pages.\n(Tus datos siguen guardados como borrador local en este navegador).");
+      }
+    })
+    .catch(function (e) {
+      if (btn) btn.disabled = false;
+      flash("⚠ No se pudo contactar /api/state.");
+      alert("No se pudo conectar con /api/state. Si estás probando en local o sin Cloudflare KV, podés usar 'Descargar página' o 'Exportar JSON'.");
+    });
+  }
+
   initTheme();
   initFromUrl();
   render();
+  fetchRemoteState();
 })();
 </script>
 </body>
