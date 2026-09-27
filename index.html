@@ -615,13 +615,24 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
         "</div>" +
 
         '<details class="bk g"' + (state.pairs.length === 0 ? " open" : "") + '><summary>Equipos (' + state.pairs.length + ")</summary>" +
-          '<button class="btn o s" type="button" data-a="addpair" style="margin-top:11px">Agregar equipo</button>' +
+          '<div style="display:flex;gap:8px;margin-top:11px;flex-wrap:wrap">' +
+            '<button class="btn o s" type="button" data-a="addpair">+ Agregar un equipo</button>' +
+          '</div>' +
+          '<details class="bk" style="margin-top:10px;padding:12px;border:1.5px solid var(--rule-2);border-radius:var(--radius);background:var(--card-2)"' + (state.pairs.length === 0 ? " open" : "") + '>' +
+            '<summary style="font-weight:700;font-size:12.5px;color:var(--ink);cursor:pointer">📋 Cargar múltiples equipos a la vez (pegar lista)</summary>' +
+            '<p style="font-size:11.5px;color:var(--ink-2);margin:8px 0 6px">Pegá los nombres de los equipos (uno por renglón):</p>' +
+            '<textarea id="ip" placeholder="Los Cuervos&#10;Palo y A la Bolsa&#10;Birra Truco Club" style="min-height:95px"></textarea>' +
+            '<div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">' +
+              '<button class="btn s" type="button" data-a="addpairsbulk">Agregar a la lista</button>' +
+              '<button class="btn o s" type="button" data-a="imppairs">Reemplazar lista completa</button>' +
+            '</div>' +
+            '<p style="font-size:11px;color:var(--ink-3);margin:7px 0 0;line-height:1.4">' +
+              '• <b>Agregar a la lista:</b> suma los equipos pegados sin borrar los actuales ni sus puntos.<br>' +
+              '• <b>Reemplazar lista completa:</b> reemplaza todos los equipos y reinicia los resultados a cero.' +
+            '</p>' +
+          '</details>' +
+          '<div class="plist" style="margin-top:14px">' + pairLines + "</div>" +
           '<p style="font-size:11px;color:var(--ink-2);margin:7px 0 0">Escribí el nombre del equipo y apretá Enter: guarda y pasa al próximo equipo solo.</p>' +
-          '<div class="plist" style="margin-top:11px">' + pairLines + "</div>" +
-          '<details class="bk" style="margin-top:10px"><summary>Importar lista</summary>' +
-            '<p style="font-size:11px;color:var(--ink-2);margin:7px 0 5px">Un equipo por línea. Reemplaza todo y pone los resultados en cero.</p>' +
-            '<textarea id="ip" placeholder="Los Cuervos&#10;Palo y A la Bolsa&#10;Birra Truco Club"></textarea>' +
-            '<button class="btn o s" type="button" data-a="imppairs" style="margin-top:7px">Reemplazar</button></details>' +
         "</details>" +
 
         '<details class="bk g"><summary>Configuración avanzada</summary>' +
@@ -710,6 +721,7 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
       else if (a === "closemsg") { var mm = b.parentNode; if (mm && mm.parentNode) mm.parentNode.removeChild(mm); }
       else if (a === "discard") discardDraft();
       else if (a === "addpair") addPair();
+      else if (a === "addpairsbulk") addPairsBulk();
       else if (a === "delpair") delPair(b.getAttribute("data-pid"));
       else if (a === "imppairs") impPairs();
       else if (a === "setpw") setPw();
@@ -759,14 +771,39 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
     flash("Aplicado a " + keys.length + " equipo" + (keys.length === 1 ? "" : "s") + ". No olvides descargar la página para publicarlo.");
     renderAdmin();
   }
+  function cleanTeamName(raw) {
+    var q = String(raw || "").split(/[;|\t]/).map(function (s) { return s.trim(); });
+    var nm = q.length === 1 ? q[0] : (q[2] ? q[2] : (q[0] + (q[1] ? " / " + q[1] : "")));
+    return nm.replace(/^\s*\d+\s*[-.):\t]+\s*/, "").trim();
+  }
+  function addPairsBulk() {
+    var ta = app.querySelector("#ip");
+    var lines = (ta ? ta.value : "").split("\n").map(function (l) { return l.trim(); }).filter(Boolean);
+    if (!lines.length) { flash("Escribí o pegá al menos un equipo en el cuadro de texto."); return; }
+    var added = 0;
+    lines.forEach(function (l) {
+      var teamName = cleanTeamName(l);
+      if (!teamName) return;
+      var k = state.pairs.length + 1, id;
+      do { id = "p" + (k < 10 ? "0" : "") + k; k++; } while (state.pairs.some(function (p) { return p.id === id; }));
+      state.pairs.push({ id: id, name: teamName });
+      state.meta.regions.forEach(function (r) { state.standings[r.id][id] = blank(); });
+      added++;
+    });
+    if (added === 0) return;
+    state.meta.demo = false;
+    view.dirty = true; saveDraft();
+    flash("Se agregaron " + added + " equipo" + (added === 1 ? "" : "s") + " a la lista.");
+    renderAdmin();
+  }
   function impPairs() {
     var ta = app.querySelector("#ip");
     var lines = (ta ? ta.value : "").split("\n").map(function (l) { return l.trim(); }).filter(Boolean);
-    if (!lines.length) return;
-    if (!confirm("¿Reemplazar los " + state.pairs.length + " equipos por " + lines.length + " y poner los resultados en cero?")) return;
-    state.pairs = lines.map(function (l, i) {
-      var q = l.split(/[;|\t]/).map(function (s) { return s.trim(); });
-      var teamName = q.length === 1 ? q[0] : (q[2] ? q[2] : (q[0] + (q[1] ? " / " + q[1] : "")));
+    if (!lines.length) { flash("Escribí o pegá al menos un equipo en el cuadro de texto."); return; }
+    var parsed = lines.map(cleanTeamName).filter(Boolean);
+    if (!parsed.length) return;
+    if (!confirm("¿Reemplazar los " + state.pairs.length + " equipos por los " + parsed.length + " nuevos y poner los resultados en cero?")) return;
+    state.pairs = parsed.map(function (teamName, i) {
       return { id: "p" + (i + 1 < 10 ? "0" : "") + (i + 1), name: teamName };
     });
     state.standings = {};
@@ -775,7 +812,9 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
       state.pairs.forEach(function (p) { state.standings[r.id][p.id] = blank(); });
     });
     state.meta.demo = false;
-    view.dirty = true; saveDraft(); renderAdmin();
+    view.dirty = true; saveDraft();
+    flash("Lista reemplazada por " + state.pairs.length + " equipos.");
+    renderAdmin();
   }
   function setPw() {
     var a = app.querySelector("#p1").value, b = app.querySelector("#p2").value, pm = app.querySelector("#pm");

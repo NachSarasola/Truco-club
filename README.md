@@ -69,13 +69,11 @@ temporada.
 
 ## 4. Equipos
 
-Sección plegable *Equipos*: editás el nombre de cada equipo, agregás o quitás.
-Al escribir el nombre y presionar Enter, se guarda y pasa automáticamente al
-siguiente equipo.
-
-Para cargar todos los equipos de una: *Equipos → Importar lista*, uno por línea
-con el nombre del equipo. Esto también pone todos los resultados en cero — usalo
-antes de arrancar la temporada.
+Sección plegable *Equipos*:
+* **Uno por uno:** botón *+ Agregar un equipo*. Al escribir el nombre y presionar Enter, se guarda y pasa automáticamente al siguiente equipo.
+* **Cargar múltiples equipos a la vez:** desplegás el panel *Cargar múltiples equipos a la vez (pegar lista)* y pegás los nombres (uno por renglón, acepta listas numeradas o simples):
+  * **Agregar a la lista:** suma los equipos pegados sin tocar los existentes ni sus puntos acumulados.
+  * **Reemplazar lista completa:** sustituye todos los equipos y reinicia los resultados a cero (ideal para el inicio de temporada).
 
 ## 5. Textos del sitio (nombre, premios, sede, redes)
 
