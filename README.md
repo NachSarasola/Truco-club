@@ -4,7 +4,8 @@ Una sola página (`index.html`) que muestra la tabla de posiciones de la Liga de
 Truco Ushuaia y un panel de administración para cargar los resultados. No
 necesita servidor, base de datos ni cuentas.
 
-Demo en vivo: https://nachsarasola.github.io/liga-fueguina-truco/
+En vivo: https://clubtruco.com (alias técnico, siempre disponible:
+https://nachsarasola.github.io/liga-fueguina-truco/)
 
 ---
 
@@ -18,6 +19,12 @@ Subí `index.html` a cualquier hosting estático gratis. Tiene que quedar como
 - **Cloudflare Pages**, **Vercel**, o el hosting que ya tengas.
 
 Pasás ese link a los jugadores. Eso es todo lo que ven ellos.
+
+Este proyecto ya está publicado en GitHub Pages con dominio propio
+(`clubtruco.com`, vía el archivo `CNAME` en la raíz del repo). Para cambiar el
+dominio: editar `CNAME`, actualizar los registros DNS en el proveedor del
+dominio (4 registros A apuntando a `185.199.108.153`, `.109.153`, `.110.153`,
+`.111.153`) y esperar a que GitHub verifique y emita el certificado HTTPS.
 
 ## 2. Entrar al panel
 
