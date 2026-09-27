@@ -50,7 +50,7 @@ fijos de esa ronda.
 1. Entrás al panel: lo primero que ves es *Resultado de la fecha*, con el
    número de fecha arriba.
 2. Para cada equipo, elegís su resultado de hoy: Campeón, Subcampeón,
-   Semifinalista, Cuartofinalista, Eliminado en 16avos, Eliminado en 32avos, o
+   3er puesto, 4to puesto, Eliminado en 8vos, Eliminado en 16avos, Eliminado en 32avos, o
    dejás "Sin cambios" si no jugó. Los puntos entre paréntesis se suman al
    acumulado de temporada — no lo reemplazan.
 3. Botón **Aplicar resultados de esta fecha**.

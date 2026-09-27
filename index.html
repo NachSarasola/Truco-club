@@ -231,7 +231,7 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
   function hashPass(s) { return "cyrb53:" + cyrb53(String(s)); }
 
   var RESULT_KEYS = ["campeon", "subcampeon", "tercero", "cuarto", "cuartofinalista", "r16", "r32", "ausente"];
-  var RESULT_LABELS = { campeon: "Campeón", subcampeon: "Subcampeón", tercero: "3er puesto", cuarto: "4to puesto", cuartofinalista: "Cuartofinalista", r16: "Eliminado en 16avos", r32: "Eliminado en 32avos", ausente: "Ausente" };
+  var RESULT_LABELS = { campeon: "Campeón", subcampeon: "Subcampeón", tercero: "3er puesto", cuarto: "4to puesto", cuartofinalista: "Eliminado en 8vos", r16: "Eliminado en 16avos", r32: "Eliminado en 32avos", ausente: "Ausente" };
   var RESULT_DEFAULTS = { campeon: 100, subcampeon: 70, tercero: 55, cuarto: 40, cuartofinalista: 30, r16: 15, r32: 5, ausente: 0 };
 
   function blank() { return { pts: 0, titulos: 0, finales: 0, semis: 0, fj: 0, prevRank: 0 }; }
@@ -467,7 +467,7 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
 
     var rp = m.resultPts;
     var reglaPts = "<b>" + rp.campeon + "</b> campeón · <b>" + rp.subcampeon + "</b> subcampeón · <b>" + rp.tercero + "</b> 3er puesto · <b>" + rp.cuarto +
-      "</b> 4to puesto · <b>" + rp.cuartofinalista + "</b> cuartos · <b>" + rp.r16 + "</b> 16avos · <b>" + rp.r32 + "</b> 32avos";
+      "</b> 4to puesto · <b>" + rp.cuartofinalista + "</b> 8vos · <b>" + rp.r16 + "</b> 16avos · <b>" + rp.r32 + "</b> 32avos";
     var reglaTie = "Desempate: fechas ganadas, luego finales y semifinales.";
 
     app.innerHTML =
