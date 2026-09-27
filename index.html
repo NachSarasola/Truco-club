@@ -186,7 +186,7 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
 </head>
 <body>
 <div id="app"><noscript>Esta página necesita JavaScript activado para mostrar la tabla de posiciones.</noscript></div>
-<script type="application/json" id="state">{"meta":{"leagueName":"Liga de Truco Ushuaia","subtitle":"","tagline":"32 parejas. Una temporada. Un campeón.","season":"2026","fecha":1,"totalFechas":14,"updatedAt":"2026-09-19","resultPts":{"campeon":100,"subcampeon":70,"semifinalista":45,"cuartofinalista":30,"r16":15,"r32":5,"ausente":0},"adminHash":"cyrb53:164fe814c289fb","regions":[{"id":"ushuaia","label":"Ushuaia"}],"defaultRegion":"ushuaia","demo":false,"info":{"premios":"Campeón de liga: 1º $1.300.000 · 2º $300.000 · 3º regalos.\nCampeón de fecha: 1º $300.000 · 2º $100.000 · 3º regalos.","organiza":"Kevin Alexander y Truco Club","sede":"Birra del Fuego","direccion":"Soberanía Nacional 1662, Ushuaia","mapsUrl":"https://www.google.com/maps/search/?api=1&query=Birra%20del%20Fuego%2C%20Soberan%C3%ADa%20Nacional%201662%2C%20Ushuaia","redes":"truco_club\nkevinalexander.kr\nbirradelfuego"}},"pairs":[],"standings":{"ushuaia":{}}}</script>
+<script type="application/json" id="state">{"meta":{"leagueName":"Liga de Truco Ushuaia","subtitle":"","tagline":"32 parejas. Una temporada. Un campeón.","season":"2026","fecha":1,"totalFechas":14,"updatedAt":"2026-09-19","resultPts":{"campeon":100,"subcampeon":70,"tercero":55,"cuarto":40,"cuartofinalista":30,"r16":15,"r32":5,"ausente":0},"adminHash":"cyrb53:164fe814c289fb","regions":[{"id":"ushuaia","label":"Ushuaia"}],"defaultRegion":"ushuaia","demo":false,"info":{"premios":"Campeón de liga: 1º $1.300.000 · 2º $300.000 · 3º regalos.\nCampeón de fecha: 1º $300.000 · 2º $100.000 · 3º regalos.","organiza":"Kevin Alexander y Truco Club","sede":"Birra del Fuego","direccion":"Soberanía Nacional 1662, Ushuaia","mapsUrl":"https://www.google.com/maps/search/?api=1&query=Birra%20del%20Fuego%2C%20Soberan%C3%ADa%20Nacional%201662%2C%20Ushuaia","redes":"truco_club\nkevinalexander.kr\nbirradelfuego"}},"pairs":[],"standings":{"ushuaia":{}}}</script>
 <script id="logic">
 (function () {
   "use strict";
@@ -229,9 +229,9 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
   }
   function hashPass(s) { return "cyrb53:" + cyrb53(String(s)); }
 
-  var RESULT_KEYS = ["campeon", "subcampeon", "tercero", "semifinalista", "cuartofinalista", "r16", "r32", "ausente"];
-  var RESULT_LABELS = { campeon: "Campeón", subcampeon: "Subcampeón", tercero: "3er puesto", semifinalista: "Semifinalista", cuartofinalista: "Cuartofinalista", r16: "Eliminado en 16avos", r32: "Eliminado en 32avos", ausente: "Ausente" };
-  var RESULT_DEFAULTS = { campeon: 100, subcampeon: 70, tercero: 55, semifinalista: 45, cuartofinalista: 30, r16: 15, r32: 5, ausente: 0 };
+  var RESULT_KEYS = ["campeon", "subcampeon", "tercero", "cuarto", "cuartofinalista", "r16", "r32", "ausente"];
+  var RESULT_LABELS = { campeon: "Campeón", subcampeon: "Subcampeón", tercero: "3er puesto", cuarto: "4to puesto", cuartofinalista: "Cuartofinalista", r16: "Eliminado en 16avos", r32: "Eliminado en 32avos", ausente: "Ausente" };
+  var RESULT_DEFAULTS = { campeon: 100, subcampeon: 70, tercero: 55, cuarto: 40, cuartofinalista: 30, r16: 15, r32: 5, ausente: 0 };
 
   function blank() { return { pts: 0, titulos: 0, finales: 0, semis: 0, fj: 0, prevRank: 0 }; }
 
@@ -459,8 +459,8 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
     var shown = view.query ? rows.filter(function (r) { return matchQuery(r, view.query); }) : rows;
 
     var rp = m.resultPts;
-    var reglaPts = "<b>" + rp.campeon + "</b> campeón · <b>" + rp.subcampeon + "</b> subcampeón · <b>" + rp.tercero + "</b> 3er puesto · <b>" + rp.semifinalista +
-      "</b> semifinal · <b>" + rp.cuartofinalista + "</b> cuartos · <b>" + rp.r16 + "</b> 16avos · <b>" + rp.r32 + "</b> 32avos";
+    var reglaPts = "<b>" + rp.campeon + "</b> campeón · <b>" + rp.subcampeon + "</b> subcampeón · <b>" + rp.tercero + "</b> 3er puesto · <b>" + rp.cuarto +
+      "</b> 4to puesto · <b>" + rp.cuartofinalista + "</b> cuartos · <b>" + rp.r16 + "</b> 16avos · <b>" + rp.r32 + "</b> 32avos";
     var reglaTie = "Desempate: fechas ganadas, luego finales y semifinales.";
 
     app.innerHTML =
@@ -730,7 +730,7 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
       cell.fj += 1;
       if (res === "campeon") { cell.titulos++; cell.finales++; cell.semis++; }
       else if (res === "subcampeon") { cell.finales++; cell.semis++; }
-      else if (res === "tercero" || res === "semifinalista") { cell.semis++; }
+      else if (res === "tercero" || res === "cuarto") { cell.semis++; }
     });
     rankRows(region).forEach(function (r) { state.standings[region][r.pair.id].prevRank = r.rank; });
     view.fechaPicks = {};
