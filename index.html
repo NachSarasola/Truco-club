@@ -305,6 +305,7 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
     view.region = regionById(want) ? want : state.meta.defaultRegion;
     view.adminRegion = view.region;
     try { if (sessionStorage.getItem(SS) === state.meta.adminHash) view.authed = true; } catch (e) {}
+    loadDraft();
   }
 
   function rankRows(regionId) {
@@ -574,6 +575,7 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
   }
 
   function renderAdmin() {
+    loadDraft();
     var m = state.meta;
     if (!regionById(view.adminRegion)) view.adminRegion = m.regions[0].id;
     var ar = view.adminRegion;
