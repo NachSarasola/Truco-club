@@ -79,10 +79,17 @@ table.pos tbody tr.r1 td.pos .n{display:inline-flex;align-items:center;justify-c
 .emptyrow td{padding:24px 10px!important;text-align:center!important;color:var(--ink-2);font-style:italic}
 @media (max-width:560px){table.pos tbody td{padding:10px 8px;font-size:15px}table.pos tbody td.par .a{font-size:15.5px}table.pos tbody td.pts{font-size:19px}}
 
-footer.foot{margin:16px 0 26px;padding-top:14px!important;border-top:1px solid var(--rule);display:flex;flex-wrap:wrap;gap:6px 20px;justify-content:flex-start;font-size:11.5px;color:var(--ink-2)}
-footer.foot .rule{max-width:60ch;display:flex;flex-direction:column;gap:4px;font-size:13px}
-footer.foot .rule-pts b{font-weight:800;color:var(--ink)}
-footer.foot .rule-tie{color:var(--ink-3);font-size:12px}
+footer.foot{margin:16px 0 26px;padding-top:14px!important;border-top:1px solid var(--rule);display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:flex-start;align-items:center;font-size:11.5px;color:var(--ink-2)}
+footer.foot .pts-strip{width:100%;display:flex;flex-wrap:wrap;align-items:center;gap:6px 7px;padding-bottom:10px;margin-bottom:4px;border-bottom:1px dashed var(--rule)}
+footer.foot .pts-title{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);margin-right:2px}
+footer.foot .pts-chip{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;background:var(--card-2);border:1px solid var(--rule-2);border-radius:var(--radius-pill);font-size:12px;line-height:1.2;white-space:nowrap;transition:transform .12s ease,border-color .12s ease}
+footer.foot .pts-chip:hover{transform:translateY(-1px);border-color:var(--ink-3)}
+footer.foot .pts-chip .pts-val{font-weight:800;font-size:12.5px;color:var(--ink);font-variant-numeric:tabular-nums}
+footer.foot .pts-chip .pts-lbl{font-weight:600;font-size:11.5px;color:var(--ink-2)}
+footer.foot .pts-chip.pts-gold{background:rgba(238,232,44,.18);border-color:rgba(201,169,110,.5)}
+footer.foot .pts-chip.pts-gold .pts-val{color:var(--accent)}
+footer.foot .pts-chip.pts-silver{border-color:rgba(142,145,150,.45)}
+footer.foot .pts-chip.pts-bronze{border-color:rgba(180,110,60,.45)}
 footer.foot .credit{width:100%;font:400 22px/1 var(--script);color:var(--ink-3)}
 footer.foot .credit-row{width:100%;display:flex;flex-wrap:wrap;justify-content:flex-start;align-items:center;gap:12px;margin-top:10px}
 footer.foot .credit-row .credit{width:auto}
@@ -475,9 +482,17 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
     var shown = view.query ? rows.filter(function (r) { return matchQuery(r, view.query); }) : rows;
 
     var rp = m.resultPts;
-    var reglaPts = "<b>" + rp.campeon + "</b> campeón · <b>" + rp.subcampeon + "</b> subcampeón · <b>" + rp.tercero + "</b> 3er puesto · <b>" + rp.cuarto +
-      "</b> 4to puesto · <b>" + rp.cuartofinalista + "</b> 4tos · <b>" + rp.r16 + "</b> 8vos · <b>" + rp.r32 + "</b> 16avos";
-    var reglaTie = "Desempate: fechas ganadas, luego finales y semifinales.";
+    var ptsStripHTML =
+      '<div class="pts-strip" aria-label="Puntos por fecha">' +
+        '<span class="pts-title">Puntos por fecha:</span>' +
+        '<span class="pts-chip pts-gold"><b class="pts-val">' + rp.campeon + '</b><span class="pts-lbl">Campeón</span></span>' +
+        '<span class="pts-chip pts-silver"><b class="pts-val">' + rp.subcampeon + '</b><span class="pts-lbl">Subcampeón</span></span>' +
+        '<span class="pts-chip pts-bronze"><b class="pts-val">' + rp.tercero + '</b><span class="pts-lbl">3er puesto</span></span>' +
+        '<span class="pts-chip"><b class="pts-val">' + rp.cuarto + '</b><span class="pts-lbl">4to puesto</span></span>' +
+        '<span class="pts-chip"><b class="pts-val">' + rp.cuartofinalista + '</b><span class="pts-lbl">Cuartos</span></span>' +
+        '<span class="pts-chip"><b class="pts-val">' + rp.r16 + '</b><span class="pts-lbl">8vos</span></span>' +
+        '<span class="pts-chip"><b class="pts-val">' + rp.r32 + '</b><span class="pts-lbl">16avos</span></span>' +
+      '</div>';
 
     app.innerHTML =
       '<div class="wrap">' +
@@ -494,7 +509,7 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
             : '<tr class="emptyrow"><td colspan="5">Sin resultados para “' + esc(view.query) + '”.</td></tr>') +
         "</tbody></table></div>" +
         '<footer class="foot">' +
-          '<div class="rule"><span class="rule-pts">' + reglaPts + '</span><span class="rule-tie">' + reglaTie + "</span></div>" +
+          ptsStripHTML +
           '<span class="lnks"><span>Actualizada ' + esc(fmtDate(m.updatedAt)) + '</span>' +
             '<button class="lk" data-a="info">Información</button>' +
             '<button class="lk" data-a="theme">' + (isDark() ? "Tema claro" : "Tema oscuro") + "</button></span>" +
