@@ -1,7 +1,15 @@
 name = "truco-club"
 main = "src/index.js"
 compatibility_date = "2024-09-28"
+workers_dev = true
 
 [assets]
 directory = "."
 binding = "ASSETS"
+
+[[kv_namespaces]]
+binding = "TRUCO_KV"
+id = "888849ef1c8a40288999c64520c24cbd"
+
+
+
