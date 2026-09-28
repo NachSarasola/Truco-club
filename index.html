@@ -107,49 +107,68 @@ footer.foot .lnks{display:flex;gap:14px;white-space:nowrap}
 .lk{appearance:none;background:none;border:0;padding:0;font:inherit;color:var(--accent);cursor:pointer;text-decoration:underline;text-underline-offset:2px}
 .lk:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
-.atop{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding-top:20px!important;padding-bottom:12px!important;border-bottom:3px solid var(--bg)}
-.atop h2{margin:0;font:400 24px/1 var(--display);letter-spacing:.01em;text-transform:uppercase}
-.gate{max-width:320px;margin:52px auto}
-.gate h2{font:400 22px/1 var(--display);text-transform:uppercase;margin:0 0 14px}
-.g{margin:0;padding-top:16px;padding-bottom:2px}
-.g+.g{border-top:1px solid var(--rule-2);margin-top:4px}
-.g .gh{margin:0;font:700 11px/1 var(--body);letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3)}
-.fr{margin:11px 0 0}
-.fg{display:flex;flex-wrap:wrap;gap:11px;margin-top:11px}
-.fg>.fr{flex:1 1 150px;margin-top:0}
-.admin label.l{display:block;margin:0 0 3px;font-size:11.5px;color:var(--ink-2)}
-.admin input[type=text],.admin input[type=number],.admin input[type=password],.admin select,.admin textarea{width:100%;font:400 13.5px var(--body);color:var(--ink);padding:11px 13px;background:var(--card-2);border:2px solid var(--rule-2);border-radius:var(--radius)}
-.admin input:focus-visible,.admin select:focus-visible,.admin textarea:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
-.admin textarea{min-height:80px;resize:vertical;font:400 12px var(--body)}
-.plist{display:flex;flex-direction:column;margin-top:9px}
-.pl{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--rule)}
-.pl .idx{flex:0 0 auto;font:700 12px/1 var(--body);color:var(--ink-3);min-width:24px;text-align:right}
-.pl input[type=text]{flex:1 1 auto;padding:9px 12px}
-.pl .rm{flex:0 0 auto;appearance:none;border:0;background:none;color:var(--down);text-decoration:underline;text-underline-offset:2px;cursor:pointer;padding:4px 6px;font-size:12px;white-space:nowrap}
-.pl .rm:hover{opacity:.8}
-table.grid{width:100%;border-collapse:collapse;margin-top:11px;font-variant-numeric:tabular-nums}
-table.grid th{font:700 9.5px/1 var(--body);letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);text-align:right;padding:0 6px 6px;border-bottom:2px solid var(--rule-2)}
-table.grid th:first-child{text-align:left}
-table.grid td{padding:9px 6px;border-bottom:1px solid var(--rule);text-align:right}
-table.grid td:first-child{text-align:left;font-size:13.5px;font-weight:600}
-table.grid .gp{font:400 15px var(--display)}
-table.grid input[type=number]{width:72px;padding:6px 8px;text-align:right;font:700 13px var(--body);background:var(--card);border:2px solid var(--rule-2);border-radius:6px}
-.podium-box{background:var(--card-2);border:2px solid var(--rule-2);border-radius:var(--radius);padding:14px;margin-top:12px}
-.podium-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:8px}
-.podium-col label.l{font-weight:700;font-size:12px;margin-bottom:4px}
-.quick-bar{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;align-items:center}
-.btn{appearance:none;font:700 13px var(--body);padding:9px 18px;border-radius:var(--radius-pill);border:2px solid var(--ink);background:var(--brand);color:var(--brand-ink);cursor:pointer}
-.btn.o{background:none;border-color:var(--rule-2);color:var(--ink)}
-.btn.s{padding:6px 12px;font-size:12px}
+.admin, .gate{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;letter-spacing:-.01em}
+.admin input,.admin select,.admin textarea,.admin button,.gate input,.gate button{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+.admin.wrap{max-width:780px;padding:16px 22px 100px}
+
+.admin-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:8px;padding-bottom:14px;border-bottom:1px solid var(--rule)}
+.admin-badge{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3)}
+.admin-title{margin:3px 0 0;font-size:20px;font-weight:800;color:var(--ink);line-height:1.2}
+.admin-back{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:var(--accent);text-decoration:none;cursor:pointer;background:none;border:0;padding:6px 10px;border-radius:6px;transition:background .15s}
+.admin-back:hover{background:rgba(0,0,0,.04);text-decoration:none}
+
+.admin-tabs{display:flex;gap:6px;padding:4px;background:var(--card-2);border:1px solid var(--rule-2);border-radius:10px;margin:14px 0 18px;overflow-x:auto}
+.admin-tab{flex:1 1 auto;appearance:none;border:0;background:none;padding:8px 14px;border-radius:7px;font-size:12.5px;font-weight:600;color:var(--ink-2);cursor:pointer;white-space:nowrap;transition:all .15s ease;text-align:center}
+.admin-tab:hover{color:var(--ink);background:rgba(0,0,0,.04)}
+.admin-tab.active{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08);font-weight:800}
+
+.admin-card{background:var(--card-2);border:1px solid var(--rule-2);border-radius:12px;padding:16px 18px;margin-bottom:14px}
+.admin-card-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.admin-card-title{font-size:13.5px;font-weight:700;color:var(--ink);margin:0}
+.admin-card-sub{font-size:11.5px;color:var(--ink-3);margin:2px 0 0}
+.admin-pill-badge{font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--card);border:1px solid var(--rule-2);color:var(--ink-2)}
+
+.podium-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.podium-col label.l{font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-2);margin-bottom:4px;display:block}
+
+.admin label.l{display:block;margin:0 0 4px;font-size:11.5px;font-weight:600;color:var(--ink-2)}
+.admin input[type=text],.admin input[type=number],.admin input[type=password],.admin select,.admin textarea{width:100%;font-size:13px;color:var(--ink);padding:8px 11px;background:var(--card);border:1px solid var(--rule-2);border-radius:8px;outline:none;transition:border-color .15s,box-shadow .15s}
+.admin input:focus,.admin select:focus,.admin textarea:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(76,122,22,.15)}
+.admin-textarea{min-height:160px;resize:vertical;line-height:1.55;font-family:-apple-system,BlinkMacSystemFont,monospace}
+
+.quick-bar{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;padding-top:10px;border-top:1px solid var(--rule-2);align-items:center}
+.btn{appearance:none;font-weight:700;font-size:12.5px;padding:8px 16px;border-radius:var(--radius-pill);border:1.5px solid var(--ink);background:var(--brand);color:var(--brand-ink);cursor:pointer;transition:transform .1s,opacity .15s}
+.btn:hover{opacity:.95}
+.btn.o{background:var(--card);border-color:var(--rule-2);color:var(--ink)}
+.btn.o:hover{border-color:var(--ink-3)}
+.btn.s{padding:5px 11px;font-size:11.5px}
 .btn:disabled{opacity:.45;cursor:default}
 .btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.abar{position:sticky;bottom:0;z-index:5;margin-top:20px;padding-top:12px;padding-bottom:12px;background:var(--card);border-top:3px solid var(--bg);display:flex;flex-wrap:wrap;gap:9px;align-items:center}
-.abar .st{flex:1 1 100%;font:600 11.5px/1.4 var(--body);color:var(--ink-2)}
-.abar .st.w{color:var(--down)} .abar .st.k{color:var(--up)}
-.msg{position:relative;margin-top:12px;padding:10px 28px 10px 12px;font-size:12px;line-height:1.5;border:2px solid var(--rule-2);border-left:4px solid var(--brand);border-radius:var(--radius);color:var(--ink);background:var(--card-2)}
+
+.abar{position:sticky;bottom:0;z-index:10;margin-top:24px;padding:11px 18px;background:var(--card);border-top:1px solid var(--rule);box-shadow:0 -4px 16px rgba(0,0,0,.06);border-radius:0 0 var(--radius) var(--radius);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.abar .st{font-size:12px;font-weight:600;color:var(--ink-2);display:inline-flex;align-items:center;gap:6px}
+.abar .st::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--up)}
+.abar .st.w{color:var(--down)} .abar .st.w::before{background:var(--down)}
+.abar .st.k{color:var(--up)} .abar .st.k::before{background:var(--up)}
+
+.gate{max-width:340px;margin:50px auto;background:var(--card-2);border:1px solid var(--rule-2);border-radius:14px;padding:26px 22px;box-shadow:0 8px 24px rgba(0,0,0,.06)}
+.gate-icon{font-size:32px;text-align:center;margin-bottom:6px}
+.gate h2{font-size:18px;font-weight:800;text-align:center;margin:0 0 4px;color:var(--ink);letter-spacing:-.01em}
+.gate-sub{font-size:12px;color:var(--ink-3);text-align:center;margin:0 0 16px}
+
+table.grid{width:100%;border-collapse:collapse;margin-top:10px;font-variant-numeric:tabular-nums}
+table.grid th{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);text-align:right;padding:6px 8px;border-bottom:1px solid var(--rule-2)}
+table.grid th:first-child{text-align:left}
+table.grid td{padding:8px 8px;border-bottom:1px solid var(--rule);text-align:right;font-size:12.5px}
+table.grid td:first-child{text-align:left;font-size:13px;font-weight:600}
+table.grid input[type=number]{width:68px;padding:5px 7px;text-align:right;font-size:12.5px;font-weight:700;background:var(--card);border:1px solid var(--rule-2);border-radius:6px}
+.fg{display:flex;flex-wrap:wrap;gap:11px;margin-top:11px}
+.fg>.fr{flex:1 1 150px;margin-top:0}
+.fr{margin:10px 0 0}
+.msg{position:relative;margin-top:12px;padding:10px 28px 10px 12px;font-size:12px;line-height:1.5;border:1px solid var(--rule-2);border-left:4px solid var(--brand);border-radius:8px;color:var(--ink);background:var(--card-2)}
 .msg .x{position:absolute;top:5px;right:7px;background:none;border:0;color:var(--ink-2);font-size:15px;cursor:pointer;line-height:1}
-.msg textarea{width:100%;min-height:110px;margin-top:7px;font:400 10.5px var(--body)}
-details.bk summary{font:600 12px var(--body);color:var(--accent);cursor:pointer}
+.msg textarea{width:100%;min-height:110px;margin-top:7px;font:400 11px monospace}
+details.bk summary{font-size:12px;font-weight:600;color:var(--accent);cursor:pointer}
 code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
 
 .h1btn{appearance:none;background:none;border:0;padding:0;margin:0;font:inherit;color:inherit;text-align:left;cursor:pointer}
@@ -303,7 +322,7 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
     });
   }
 
-  var view = { mode: "home", region: null, query: "", authed: false, adminRegion: null, dirty: false, msg: null, draftInfo: null };
+  var view = { mode: "home", region: null, query: "", authed: false, adminRegion: null, dirty: false, msg: null, draftInfo: null, adminTab: "fecha" };
 
   function regionById(id) { for (var i = 0; i < state.meta.regions.length; i++) if (state.meta.regions[i].id === id) return state.meta.regions[i]; return null; }
   function currentRegion() { return regionById(view.region) || state.meta.regions[0]; }
@@ -600,14 +619,16 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
   function renderGate() {
     app.innerHTML =
       '<div class="wrap admin"><div class="gate">' +
-        "<h2>Panel</h2>" +
+        '<div class="gate-icon">🔐</div>' +
+        '<h2>Panel de Control</h2>' +
+        '<div class="gate-sub">Acceso administrativo al torneo</div>' +
         '<form id="gf">' +
-          '<div class="fr"><label class="l" for="pw">Contraseña</label><input type="password" id="pw" autocomplete="current-password"></div>' +
-          '<p class="msg" id="ge" role="alert" hidden>Contraseña incorrecta.</p>' +
-          '<div class="fr" style="display:flex;gap:9px;margin-top:14px"><button class="btn" type="submit">Entrar</button>' +
+          '<div class="fr"><label class="l" for="pw">Contraseña de administrador</label><input type="password" id="pw" autocomplete="current-password" placeholder="••••••••"></div>' +
+          '<p class="msg" id="ge" role="alert" hidden style="margin-top:10px;color:var(--down);border-left-color:var(--down)">Contraseña incorrecta.</p>' +
+          '<div style="display:flex;gap:8px;margin-top:16px"><button class="btn" type="submit" style="flex:1">Ingresar</button>' +
           '<button class="btn o" type="button" data-a="back">Volver</button></div>' +
-        "</form>" +
-      "</div></div>";
+        '</form>' +
+      '</div></div>';
     var f = app.querySelector("#gf");
     f.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -711,127 +732,172 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
       '</tr>';
     }).join("");
 
-    app.innerHTML =
-      '<div class="wrap admin">' +
-        '<div class="atop"><h2>' + esc(m.leagueName) + '</h2><span class="lnks"><button class="lk" data-a="home">Inicio</button><button class="lk" data-a="back">Ver la tabla</button></span></div>' +
-        (view.draftInfo ? '<div class="msg">Borrador local sin publicar' +
-          (typeof view.draftInfo === "string" ? " (" + esc(fmtDate(view.draftInfo.slice(0, 10))) + ")" : "") +
-          '. <button class="lk" data-a="discard">Descartar</button></div>' : "") +
-        (msg ? '<div class="msg">' + msg + '<button type="button" class="x" data-a="closemsg" aria-label="Cerrar">×</button></div>' : "") +
+    var tab = view.adminTab || "fecha";
 
-        '<div class="g">' +
-          '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">' +
-            '<p class="gh" style="margin:0">⚡ Cargar Resultados de Fecha</p>' +
+    var tabContent = "";
+    if (tab === "fecha") {
+      tabContent =
+        '<div class="admin-card">' +
+          '<div class="admin-card-head">' +
+            '<div>' +
+              '<h2 class="admin-card-title">Cargar Resultados de la Fecha</h2>' +
+              '<div class="admin-card-sub">Seleccioná los puestos de la jornada y sumá los puntos en un clic.</div>' +
+            '</div>' +
             '<div style="display:flex;align-items:center;gap:6px">' +
               '<label class="l" style="margin:0">Fecha Nº</label>' +
-              '<input type="number" min="1" data-b="meta.fecha" value="' + m.fecha + '" style="width:65px;padding:6px 8px;font-weight:700">' +
-              '<button class="btn o s" type="button" data-a="incfecha" title="Avanzar a la siguiente fecha">+1</button>' +
+              '<input type="number" min="1" data-b="meta.fecha" value="' + m.fecha + '" style="width:60px;padding:5px 8px;font-weight:700;text-align:center">' +
+              '<button class="btn o s" type="button" data-a="incfecha" title="Avanzar fecha">+1</button>' +
             '</div>' +
           '</div>' +
 
-          '<div class="podium-box">' +
-            '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">' +
-              '<span style="font-weight:700;font-size:12.5px;color:var(--ink)">🏆 Podio y Semifinales (1º al 4º)</span>' +
-              '<span style="font-size:11px;color:var(--ink-3)">Elegí los finalistas</span>' +
-            '</div>' +
+          '<div style="margin-top:14px">' +
+            '<div style="font-size:12px;font-weight:700;color:var(--ink);margin-bottom:8px">🏆 Podio y Semifinales (1º al 4º puesto)</div>' +
             '<div class="podium-grid">' +
               renderPodiumSelect("campeon", "🥇 1º Campeón", m.resultPts.campeon) +
               renderPodiumSelect("subcampeon", "🥈 2º Subcampeón", m.resultPts.subcampeon) +
               renderPodiumSelect("tercero", "🥉 3º Puesto", m.resultPts.tercero) +
               renderPodiumSelect("cuarto", "🎖️ 4º Puesto", m.resultPts.cuarto) +
             '</div>' +
-            '<div style="margin-top:12px;padding-top:12px;border-top:1.5px solid var(--rule-2)">' +
-              '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">' +
-                '<span style="font-weight:700;font-size:12.5px;color:var(--ink)">⚔️ Eliminados en 4tos de final (5º al 8º puesto)</span>' +
-                '<span style="font-size:11px;color:var(--ink-3)">+' + m.resultPts.cuartofinalista + ' pts cada uno</span>' +
-              '</div>' +
-              '<div class="podium-grid">' +
-                renderCuartosSelect(0) +
-                renderCuartosSelect(1) +
-                renderCuartosSelect(2) +
-                renderCuartosSelect(3) +
-              '</div>' +
+          '</div>' +
+
+          '<div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--rule-2)">' +
+            '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px">' +
+              '<div style="font-size:12px;font-weight:700;color:var(--ink)">⚔️ Eliminados en 4tos de final (5º al 8º puesto)</div>' +
+              '<div style="font-size:11px;color:var(--ink-3)">+' + m.resultPts.cuartofinalista + ' pts c/u</div>' +
             '</div>' +
-            '<div class="quick-bar" style="margin-top:12px;padding-top:10px;border-top:1.5px solid var(--rule-2)">' +
-              '<button class="btn o s" type="button" data-a="fillremaining" data-res="r32">⚡ Completar restantes como "Eliminado en 16avos (+' + m.resultPts.r32 + ')"</button>' +
-              '<button class="btn o s" type="button" data-a="fillremaining" data-res="r16">⚡ Completar restantes como "Eliminado en 8vos (+' + m.resultPts.r16 + ')"</button>' +
-              '<button class="btn o s" type="button" data-a="clearpicks" style="color:var(--down);border-color:var(--down)">Borrar selecciones</button>' +
+            '<div class="podium-grid">' +
+              renderCuartosSelect(0) +
+              renderCuartosSelect(1) +
+              renderCuartosSelect(2) +
+              renderCuartosSelect(3) +
             '</div>' +
           '</div>' +
 
-          '<div style="margin-top:14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">' +
-            '<input type="search" id="qfecha" placeholder="🔍 Filtrar equipo en la lista..." style="max-width:280px;width:100%">' +
-            '<span style="font-size:11.5px;color:var(--ink-2)">Total equipos: <b>' + state.pairs.length + '</b></span>' +
+          '<div class="quick-bar">' +
+            '<span style="font-size:11px;font-weight:600;color:var(--ink-3);margin-right:4px">Rellenar lote:</span>' +
+            '<button class="btn o s" type="button" data-a="fillremaining" data-res="r32">⚡ Restantes en 16avos (+' + m.resultPts.r32 + ')</button>' +
+            '<button class="btn o s" type="button" data-a="fillremaining" data-res="r16">⚡ Restantes en 8vos (+' + m.resultPts.r16 + ')</button>' +
+            '<button class="btn o s" type="button" data-a="clearpicks" style="color:var(--down);border-color:transparent;margin-left:auto">Limpiar</button>' +
           '</div>' +
-          '<div class="tw"><table class="grid" id="gridfecha"><thead><tr><th>Equipo</th><th>Pts acum.</th><th>Resultado de hoy</th></tr></thead><tbody>' +
-            grid +
-          "</tbody></table></div>" +
-          '<div style="display:flex;gap:10px;margin-top:12px;align-items:center;flex-wrap:wrap">' +
-            '<button class="btn" type="button" data-a="applyfecha" style="padding:11px 22px;font-size:13.5px">💾 Aplicar resultados de la Fecha ' + m.fecha + '</button>' +
-            '<span style="font-size:11.5px;color:var(--ink-2)">(Suma los puntos y avanza la fecha automáticamente)</span>' +
-          '</div>' +
-        "</div>" +
-
-        '<details class="bk g"><summary>✍️ Editar puntos acumulados a mano (modo Excel / correcciones)</summary>' +
-          '<p style="font-size:11.5px;color:var(--ink-2);margin:8px 0 6px">Modificá directamente los puntos, fechas jugadas (FJ) o títulos (FG) de cualquier equipo sin simular fechas:</p>' +
-          '<div class="tw"><table class="grid"><thead><tr><th>Equipo</th><th>Puntos (Pts)</th><th>Partidos (FJ)</th><th>Títulos (FG)</th></tr></thead><tbody>' +
-            manualGrid +
-          "</tbody></table></div>" +
-          '<div style="margin-top:10px;display:flex;gap:10px;align-items:center">' +
-            '<button class="btn o s" type="button" data-a="recalc">🔄 Recalcular posiciones</button>' +
-            '<span style="font-size:11px;color:var(--ink-3)">Los cambios se guardan automáticamente al escribir.</span>' +
-          '</div>' +
-        "</details>" +
-
-        '<div class="g">' +
-          '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">' +
-            '<p class="gh" style="margin:0">👥 Equipos del Torneo (' + state.pairs.length + ')</p>' +
-            '<span style="font-size:12px;font-weight:700;color:var(--ink)">' + state.pairs.length + ' equipos cargados</span>' +
-          '</div>' +
-          '<p style="font-size:12px;color:var(--ink-2);margin:10px 0 6px">' +
-            'Pegá o escribí la lista de equipos, <b>un nombre de equipo por línea</b> (podés copiar y pegar directo desde WhatsApp o Excel):' +
-          '</p>' +
-          '<textarea id="teamsTextarea" placeholder="1. Los Cuervos&#10;2. Palo y A la Bolsa&#10;3. Birra Truco Club" style="min-height:160px;font-size:13.5px;line-height:1.5;font-weight:600;padding:12px;background:var(--card-2);border:2px solid var(--rule-2);border-radius:var(--radius);width:100%">' + esc(teamsText) + '</textarea>' +
-          '<div style="display:flex;gap:10px;margin-top:10px;align-items:center;flex-wrap:wrap">' +
-            '<button class="btn" type="button" data-a="saveteamsbulk" style="padding:10px 22px;font-size:13.5px">💾 Guardar lista de equipos</button>' +
-            '<button class="btn o s" type="button" data-a="clearteamstext" style="color:var(--down)">Borrar texto</button>' +
-            '<span style="font-size:11.5px;color:var(--ink-3)">Limpia números y viñetas automáticamente ("1. ", "2) ", etc.) y conserva los puntos si el equipo ya jugó.</span>' +
-          '</div>' +
-          (state.pairs.length > 0 ? (
-            '<details class="bk" style="margin-top:14px"><summary>Ver equipos numerados uno por uno (' + state.pairs.length + ')</summary>' +
-            '<div class="plist" style="margin-top:10px">' + pairLines + '</div>' +
-            '<p style="font-size:11px;color:var(--ink-2);margin:7px 0 0">Escribí el nombre del equipo y apretá Enter: guarda y pasa al próximo equipo solo.</p></details>'
-          ) : "") +
         '</div>' +
 
-        '<details class="bk g"><summary>⚙️ Configuración avanzada</summary>' +
-          '<div class="fr" style="max-width:140px;margin-top:11px"><label class="l">Fechas totales</label><input type="number" min="1" data-b="meta.totalFechas" value="' + m.totalFechas + '"></div>' +
-          '<p class="gh" style="margin-top:16px">Puntos por resultado de fecha</p>' +
-          '<div class="fg pts">' + RESULT_KEYS.map(function (k) {
-            var wide = k === "ausente" ? ' style="flex:0 1 150px"' : "";
-            return '<div class="fr"' + wide + '><label class="l">' + esc(RESULT_LABELS[k]) + '</label><input type="number" min="0" data-b="meta.resultPts.' + k + '" value="' + m.resultPts[k] + '"></div>';
-          }).join("") + "</div>" +
-          '<p class="gh" style="margin-top:16px">Contraseña</p>' +
-          '<div class="fg">' +
-            '<div class="fr"><label class="l">Nueva</label><input type="password" id="p1" autocomplete="new-password"></div>' +
-            '<div class="fr"><label class="l">Repetir</label><input type="password" id="p2" autocomplete="new-password"></div>' +
-          "</div>" +
-          '<button class="btn o s" type="button" data-a="setpw" style="margin-top:9px">Cambiar</button>' +
-          '<span id="pm" style="margin-left:9px;font-size:11px;color:var(--ink-2)"></span>' +
-        "</details>" +
+        '<details class="bk admin-card" style="padding:14px 18px">' +
+          '<summary style="font-size:12.5px;font-weight:700;color:var(--ink);cursor:pointer">📋 Ver o ajustar resultado individual por equipo (' + state.pairs.length + ')</summary>' +
+          '<div style="margin-top:12px">' +
+            '<input type="search" id="qfecha" placeholder="🔍 Filtrar equipo en la lista..." style="max-width:260px;margin-bottom:10px">' +
+            '<div class="tw"><table class="grid" id="gridfecha"><thead><tr><th>Equipo</th><th>Pts acum.</th><th>Resultado de hoy</th></tr></thead><tbody>' +
+              grid +
+            '</tbody></table></div>' +
+          '</div>' +
+        '</details>' +
+
+        '<div style="display:flex;align-items:center;gap:12px;margin-top:16px;flex-wrap:wrap">' +
+          '<button class="btn" type="button" data-a="applyfecha" style="padding:10px 22px;font-size:13.5px">💾 Aplicar resultados de la Fecha ' + m.fecha + '</button>' +
+          '<span style="font-size:11.5px;color:var(--ink-3)">Suma los puntos a la tabla y prepara la siguiente fecha.</span>' +
+        '</div>';
+    } else if (tab === "equipos") {
+      tabContent =
+        '<div class="admin-card">' +
+          '<div class="admin-card-head">' +
+            '<div>' +
+              '<h2 class="admin-card-title">Carga Rápida de Equipos</h2>' +
+              '<div class="admin-card-sub">Copiá y pegá la lista desde WhatsApp o Excel (un equipo por línea).</div>' +
+            '</div>' +
+            '<span class="admin-pill-badge">' + state.pairs.length + ' equipos</span>' +
+          '</div>' +
+          '<textarea id="teamsTextarea" class="admin-textarea" placeholder="Los Cuervos&#10;Palo y A la Bolsa&#10;Birra Truco Club">' + esc(teamsText) + '</textarea>' +
+          '<div style="display:flex;gap:8px;margin-top:12px;align-items:center;flex-wrap:wrap">' +
+            '<button class="btn" type="button" data-a="saveteamsbulk">💾 Guardar lista de equipos</button>' +
+            '<button class="btn o s" type="button" data-a="clearteamstext" style="color:var(--down)">Borrar texto</button>' +
+            '<span style="font-size:11px;color:var(--ink-3);margin-left:auto">Limpia números y viñetas automáticamente ("1. ", "2) ", etc.) y conserva los puntos si ya jugaron.</span>' +
+          '</div>' +
+        '</div>' +
+        (state.pairs.length > 0 ? (
+          '<details class="bk admin-card" style="padding:14px 18px">' +
+            '<summary style="font-size:12.5px;font-weight:700;color:var(--ink);cursor:pointer">✏️ Ver o editar equipos uno por uno (' + state.pairs.length + ')</summary>' +
+            '<div class="plist" style="margin-top:12px">' + pairLines + '</div>' +
+            '<div style="margin-top:10px"><button class="btn o s" type="button" data-a="addpair">+ Agregar equipo</button></div>' +
+          '</details>'
+        ) : "");
+    } else if (tab === "tabla") {
+      tabContent =
+        '<div class="admin-card">' +
+          '<div class="admin-card-head">' +
+            '<div>' +
+              '<h2 class="admin-card-title">Tabla Manual de Puntos (Modo Planilla)</h2>' +
+              '<div class="admin-card-sub">Editá directamente los números de cualquier equipo. Se guardan automáticamente al escribir.</div>' +
+            '</div>' +
+            '<div style="display:flex;gap:8px;align-items:center">' +
+              '<input type="search" id="qmanual" placeholder="🔍 Buscar equipo..." style="max-width:180px;font-size:12px;padding:4px 8px">' +
+              '<button class="btn o s" type="button" data-a="recalc">🔄 Recalcular posiciones</button>' +
+            '</div>' +
+          '</div>' +
+          '<div class="tw"><table class="grid" id="gridmanual"><thead><tr><th>Equipo</th><th>Puntos (Pts)</th><th>Partidos (FJ)</th><th>Títulos (FG)</th></tr></thead><tbody>' +
+            manualGrid +
+          '</tbody></table></div>' +
+        '</div>';
+    } else if (tab === "ajustes") {
+      tabContent =
+        '<div class="admin-card">' +
+          '<h2 class="admin-card-title" style="margin-bottom:12px">Configuración del Torneo</h2>' +
+          '<div class="fg" style="margin-top:0">' +
+            '<div class="fr" style="max-width:140px"><label class="l">Fechas totales</label><input type="number" min="1" data-b="meta.totalFechas" value="' + m.totalFechas + '"></div>' +
+          '</div>' +
+          '<div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--rule-2)">' +
+            '<div style="font-size:12px;font-weight:700;color:var(--ink);margin-bottom:10px">Puntos por resultado de fecha</div>' +
+            '<div class="fg pts">' + RESULT_KEYS.map(function (k) {
+              return '<div class="fr"><label class="l">' + esc(RESULT_LABELS[k]) + '</label><input type="number" min="0" data-b="meta.resultPts.' + k + '" value="' + m.resultPts[k] + '"></div>';
+            }).join("") + '</div>' +
+          '</div>' +
+          '<div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--rule-2)">' +
+            '<div style="font-size:12px;font-weight:700;color:var(--ink);margin-bottom:10px">Contraseña de Administrador</div>' +
+            '<div class="fg" style="align-items:flex-end">' +
+              '<div class="fr"><label class="l">Nueva</label><input type="password" id="p1" autocomplete="new-password"></div>' +
+              '<div class="fr"><label class="l">Repetir</label><input type="password" id="p2" autocomplete="new-password"></div>' +
+              '<div class="fr" style="flex:0 0 auto"><button class="btn o s" type="button" data-a="setpw">Cambiar clave</button></div>' +
+            '</div>' +
+            '<span id="pm" style="display:block;margin-top:6px;font-size:11px;color:var(--ink-2)"></span>' +
+          '</div>' +
+          '<div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--rule-2)">' +
+            '<div style="font-size:12px;font-weight:700;color:var(--ink);margin-bottom:6px">Copia de Seguridad</div>' +
+            '<div style="font-size:11.5px;color:var(--ink-3);margin-bottom:10px">Exportá o importá todos los datos del torneo en formato JSON.</div>' +
+            '<div style="display:flex;gap:8px">' +
+              '<button class="btn o s" type="button" data-a="expjson">Exportar JSON</button>' +
+              '<button class="btn o s" type="button" data-a="impjson">Importar JSON</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+    }
+
+    app.innerHTML =
+      '<div class="wrap admin">' +
+        '<div class="admin-head">' +
+          '<div>' +
+            '<div class="admin-badge">Panel de Administración</div>' +
+            '<h1 class="admin-title">' + esc(m.leagueName) + '</h1>' +
+          '</div>' +
+          '<button class="admin-back" data-a="back">← Volver a la tabla</button>' +
+        '</div>' +
+
+        (view.draftInfo ? '<div class="msg" style="margin-top:12px">⚠️ Tenés cambios en el borrador local sin publicar' +
+          (typeof view.draftInfo === "string" ? " (" + esc(fmtDate(view.draftInfo.slice(0, 10))) + ")" : "") +
+          '. <button class="lk" data-a="discard">Descartar</button></div>' : "") +
+        (msg ? '<div class="msg" style="margin-top:12px">' + msg + '<button type="button" class="x" data-a="closemsg" aria-label="Cerrar">×</button></div>' : "") +
+
+        '<div class="admin-tabs">' +
+          '<button type="button" class="admin-tab ' + (tab === "fecha" ? "active" : "") + '" data-admin-tab="fecha">⚡ Cargar Fecha</button>' +
+          '<button type="button" class="admin-tab ' + (tab === "equipos" ? "active" : "") + '" data-admin-tab="equipos">👥 Equipos (' + state.pairs.length + ')</button>' +
+          '<button type="button" class="admin-tab ' + (tab === "tabla" ? "active" : "") + '" data-admin-tab="tabla">✍️ Ajustar Puntos</button>' +
+          '<button type="button" class="admin-tab ' + (tab === "ajustes" ? "active" : "") + '" data-admin-tab="ajustes">⚙️ Ajustes</button>' +
+        '</div>' +
+
+        tabContent +
 
         '<div class="abar">' +
-          '<span class="st ' + (view.dirty ? "w" : "") + '">' + (view.dirty ? "Cambios sin publicar en vivo." : "Sin cambios pendientes.") + "</span>" +
-          '<button class="btn" type="button" data-a="publish" style="font-size:14px;padding:10px 22px">🚀 Publicar en vivo</button>' +
-          '<button class="btn o" type="button" data-a="draft">Guardar borrador</button>' +
-          '<button class="btn o" type="button" data-a="download">Descargar página</button>' +
-          '<details class="bk" style="flex:1 1 100%"><summary>Copia de seguridad y hosting</summary>' +
-            '<p style="font-size:11px;color:var(--ink-2);margin:7px 0 5px">Con Cloudflare KV vinculado, <b>Publicar en vivo</b> actualiza la página al instante para todos los visitantes. También podés exportar el JSON o descargar el archivo HTML.</p>' +
-            '<div style="display:flex;gap:9px;flex-wrap:wrap">' +
-              '<button class="btn o s" type="button" data-a="expjson">Exportar JSON</button>' +
-              '<button class="btn o s" type="button" data-a="impjson">Importar JSON</button></div></details>' +
-        "</div>" +
-      "</div>";
+          '<span class="st ' + (view.dirty ? "w" : "k") + '">' + (view.dirty ? "Cambios sin publicar en vivo." : "Todo sincronizado y al día.") + "</span>" +
+          '<button class="btn" type="button" data-a="publish" style="font-size:13.5px;padding:9px 20px">🚀 Publicar en vivo</button>' +
+        '</div>' +
+      '</div>';
     wireAdmin();
     if (view.focusPairId) {
       var toFocus = app.querySelector('[data-b="pair.' + view.focusPairId + '.name"]');
@@ -948,6 +1014,18 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
       });
     }
 
+    var qm = root.querySelector("#qmanual");
+    if (qm) {
+      qm.addEventListener("input", function () {
+        var val = qm.value.toLowerCase().trim();
+        var rows = root.querySelectorAll("#gridmanual tbody tr");
+        rows.forEach(function (tr) {
+          var txt = tr.textContent.toLowerCase();
+          tr.style.display = (!val || txt.indexOf(val) >= 0) ? "" : "none";
+        });
+      });
+    }
+
     root.addEventListener("keydown", function (e) {
       if (e.key !== "Enter") return;
       var el = e.target;
@@ -957,6 +1035,12 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
       addPair();
     });
     root.addEventListener("click", function (e) {
+      var tabBtn = e.target.closest ? e.target.closest("[data-admin-tab]") : null;
+      if (tabBtn) {
+        view.adminTab = tabBtn.getAttribute("data-admin-tab");
+        renderAdmin();
+        return;
+      }
       var b = e.target.closest ? e.target.closest("[data-a]") : null;
       if (!b) return;
       var a = b.getAttribute("data-a");
