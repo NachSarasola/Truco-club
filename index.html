@@ -326,9 +326,8 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
     return rows;
   }
   function label(p) {
-    if (p.name && p.name.trim()) return p.name.trim();
-    if (p.p1 || p.p2) return (String(p.p1 || "") + (p.p2 ? " / " + String(p.p2) : "")).trim();
-    return "Equipo " + p.id;
+    if (p && p.name && p.name.trim()) return p.name.trim();
+    return "Equipo " + (p ? p.id : "");
   }
 
   function initTheme() {
@@ -585,6 +584,7 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
     if (!regionById(view.adminRegion)) view.adminRegion = m.regions[0].id;
     var ar = view.adminRegion;
     var msg = view.msg; view.msg = null;
+    var teamsText = state.pairs.map(function (p) { return p.name; }).join("\n");
 
     var pairLines = state.pairs.map(function (p, i) {
       return '<div class="pl" data-pid="' + esc(p.id) + '">' +
@@ -690,26 +690,26 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
           '</div>' +
         "</details>" +
 
-        '<details class="bk g"' + (state.pairs.length === 0 ? " open" : "") + '><summary>👥 Equipos (' + state.pairs.length + ")</summary>" +
-          '<div style="display:flex;gap:8px;margin-top:11px;flex-wrap:wrap">' +
-            '<button class="btn o s" type="button" data-a="addpair">+ Agregar un equipo</button>' +
+        '<div class="g">' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">' +
+            '<p class="gh" style="margin:0">👥 Equipos del Torneo (' + state.pairs.length + ')</p>' +
+            '<span style="font-size:12px;font-weight:700;color:var(--ink)">' + state.pairs.length + ' equipos cargados</span>' +
           '</div>' +
-          '<details class="bk" style="margin-top:10px;padding:12px;border:1.5px solid var(--rule-2);border-radius:var(--radius);background:var(--card-2)"' + (state.pairs.length === 0 ? " open" : "") + '>' +
-            '<summary style="font-weight:700;font-size:12.5px;color:var(--ink);cursor:pointer">📋 Cargar múltiples equipos a la vez (pegar lista)</summary>' +
-            '<p style="font-size:11.5px;color:var(--ink-2);margin:8px 0 6px">Pegá los nombres de los equipos (uno por renglón):</p>' +
-            '<textarea id="ip" placeholder="Los Cuervos&#10;Palo y A la Bolsa&#10;Birra Truco Club" style="min-height:95px"></textarea>' +
-            '<div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">' +
-              '<button class="btn s" type="button" data-a="addpairsbulk">Agregar a la lista</button>' +
-              '<button class="btn o s" type="button" data-a="imppairs">Reemplazar lista completa</button>' +
-            '</div>' +
-            '<p style="font-size:11px;color:var(--ink-3);margin:7px 0 0;line-height:1.4">' +
-              '• <b>Agregar a la lista:</b> suma los equipos pegados sin borrar los actuales ni sus puntos.<br>' +
-              '• <b>Reemplazar lista completa:</b> reemplaza todos los equipos y reinicia los resultados a cero.' +
-            '</p>' +
-          '</details>' +
-          '<div class="plist" style="margin-top:14px">' + pairLines + "</div>" +
-          '<p style="font-size:11px;color:var(--ink-2);margin:7px 0 0">Escribí el nombre del equipo y apretá Enter: guarda y pasa al próximo equipo solo.</p>' +
-        "</details>" +
+          '<p style="font-size:12px;color:var(--ink-2);margin:10px 0 6px">' +
+            'Pegá o escribí la lista de equipos, <b>un nombre de equipo por línea</b> (podés copiar y pegar directo desde WhatsApp o Excel):' +
+          '</p>' +
+          '<textarea id="teamsTextarea" placeholder="1. Los Cuervos&#10;2. Palo y A la Bolsa&#10;3. Birra Truco Club" style="min-height:160px;font-size:13.5px;line-height:1.5;font-weight:600;padding:12px;background:var(--card-2);border:2px solid var(--rule-2);border-radius:var(--radius);width:100%">' + esc(teamsText) + '</textarea>' +
+          '<div style="display:flex;gap:10px;margin-top:10px;align-items:center;flex-wrap:wrap">' +
+            '<button class="btn" type="button" data-a="saveteamsbulk" style="padding:10px 22px;font-size:13.5px">💾 Guardar lista de equipos</button>' +
+            '<button class="btn o s" type="button" data-a="clearteamstext" style="color:var(--down)">Borrar texto</button>' +
+            '<span style="font-size:11.5px;color:var(--ink-3)">Limpia números y viñetas automáticamente ("1. ", "2) ", etc.) y conserva los puntos si el equipo ya jugó.</span>' +
+          '</div>' +
+          (state.pairs.length > 0 ? (
+            '<details class="bk" style="margin-top:14px"><summary>Ver equipos numerados uno por uno (' + state.pairs.length + ')</summary>' +
+            '<div class="plist" style="margin-top:10px">' + pairLines + '</div>' +
+            '<p style="font-size:11px;color:var(--ink-2);margin:7px 0 0">Escribí el nombre del equipo y apretá Enter: guarda y pasa al próximo equipo solo.</p></details>'
+          ) : "") +
+        '</div>' +
 
         '<details class="bk g"><summary>⚙️ Configuración avanzada</summary>' +
           '<div class="fr" style="max-width:140px;margin-top:11px"><label class="l">Fechas totales</label><input type="number" min="1" data-b="meta.totalFechas" value="' + m.totalFechas + '"></div>' +
@@ -846,10 +846,10 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
       if (a === "back") backToBoard();
       else if (a === "closemsg") { var mm = b.parentNode; if (mm && mm.parentNode) mm.parentNode.removeChild(mm); }
       else if (a === "discard") discardDraft();
+      else if (a === "saveteamsbulk") saveTeamsBulk();
+      else if (a === "clearteamstext") clearTeamsText();
       else if (a === "addpair") addPair();
-      else if (a === "addpairsbulk") addPairsBulk();
       else if (a === "delpair") delPair(b.getAttribute("data-pid"));
-      else if (a === "imppairs") impPairs();
       else if (a === "setpw") setPw();
       else if (a === "applyfecha") applyFecha();
       else if (a === "publish") publishLive();
@@ -923,48 +923,70 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
     renderAdmin();
   }
   function cleanTeamName(raw) {
-    var q = String(raw || "").split(/[;|\t]/).map(function (s) { return s.trim(); });
-    var nm = q.length === 1 ? q[0] : (q[2] ? q[2] : (q[0] + (q[1] ? " / " + q[1] : "")));
-    return nm.replace(/^\s*\d+\s*[-.):\t]+\s*/, "").trim();
+    var s = String(raw || "").trim();
+    // Limpia numeraciones iniciales como "1. ", "1) ", "1 - ", "#1 ", "01. ", etc.
+    s = s.replace(/^\s*#?\d+\s*[-.):\t]+\s*/, "").trim();
+    return s;
   }
-  function addPairsBulk() {
-    var ta = app.querySelector("#ip");
-    var lines = (ta ? ta.value : "").split("\n").map(function (l) { return l.trim(); }).filter(Boolean);
-    if (!lines.length) { flash("Escribí o pegá al menos un equipo en el cuadro de texto."); return; }
-    var added = 0;
-    lines.forEach(function (l) {
-      var teamName = cleanTeamName(l);
-      if (!teamName) return;
-      var k = state.pairs.length + 1, id;
-      do { id = "p" + (k < 10 ? "0" : "") + k; k++; } while (state.pairs.some(function (p) { return p.id === id; }));
-      state.pairs.push({ id: id, name: teamName });
-      state.meta.regions.forEach(function (r) { state.standings[r.id][id] = blank(); });
-      added++;
-    });
-    if (added === 0) return;
-    state.meta.demo = false;
-    view.dirty = true; saveDraft();
-    flash("Se agregaron " + added + " equipo" + (added === 1 ? "" : "s") + " a la lista.");
-    renderAdmin();
+  function clearTeamsText() {
+    var ta = app.querySelector("#teamsTextarea");
+    if (ta) { ta.value = ""; ta.focus(); }
   }
-  function impPairs() {
-    var ta = app.querySelector("#ip");
-    var lines = (ta ? ta.value : "").split("\n").map(function (l) { return l.trim(); }).filter(Boolean);
-    if (!lines.length) { flash("Escribí o pegá al menos un equipo en el cuadro de texto."); return; }
-    var parsed = lines.map(cleanTeamName).filter(Boolean);
-    if (!parsed.length) return;
-    if (!confirm("¿Reemplazar los " + state.pairs.length + " equipos por los " + parsed.length + " nuevos y poner los resultados en cero?")) return;
-    state.pairs = parsed.map(function (teamName, i) {
-      return { id: "p" + (i + 1 < 10 ? "0" : "") + (i + 1), name: teamName };
+  function saveTeamsBulk() {
+    var ta = app.querySelector("#teamsTextarea");
+    if (!ta) return;
+    var rawLines = ta.value.split("\n");
+    var parsed = [];
+    rawLines.forEach(function (l) {
+      var c = cleanTeamName(l);
+      if (c) parsed.push(c);
     });
-    state.standings = {};
-    state.meta.regions.forEach(function (r) {
-      state.standings[r.id] = {};
-      state.pairs.forEach(function (p) { state.standings[r.id][p.id] = blank(); });
+
+    if (!parsed.length) {
+      if (!confirm("¿Deseas vaciar la lista de equipos y dejarla en 0?")) return;
+      state.pairs = [];
+      state.standings = {};
+      state.meta.regions.forEach(function (r) { state.standings[r.id] = {}; });
+      view.dirty = true; saveDraft();
+      flash("Se borraron todos los equipos.");
+      renderAdmin();
+      return;
+    }
+
+    var oldPairs = state.pairs || [];
+    var oldStandings = state.standings || {};
+    var newPairs = [];
+    var newStandings = {};
+    state.meta.regions.forEach(function (r) { newStandings[r.id] = {}; });
+
+    parsed.forEach(function (name, i) {
+      var foundExisting = null;
+      for (var j = 0; j < oldPairs.length; j++) {
+        if (oldPairs[j].name.trim().toLowerCase() === name.toLowerCase()) {
+          foundExisting = oldPairs[j];
+          break;
+        }
+      }
+      var id = foundExisting ? foundExisting.id : ("p" + (i + 1 < 10 ? "0" : "") + (i + 1));
+      newPairs.push({ id: id, name: name });
+
+      state.meta.regions.forEach(function (r) {
+        if (foundExisting && oldStandings[r.id] && oldStandings[r.id][foundExisting.id]) {
+          newStandings[r.id][id] = oldStandings[r.id][foundExisting.id];
+        } else if (oldStandings[r.id] && oldStandings[r.id][id]) {
+          newStandings[r.id][id] = oldStandings[r.id][id];
+        } else {
+          newStandings[r.id][id] = blank();
+        }
+      });
     });
+
+    state.pairs = newPairs;
+    state.standings = newStandings;
     state.meta.demo = false;
-    view.dirty = true; saveDraft();
-    flash("Lista reemplazada por " + state.pairs.length + " equipos.");
+    view.dirty = true;
+    saveDraft();
+    flash("✔ Se guardaron " + newPairs.length + " equipos correctamente. ¡Recordá presionar 'Publicar en vivo'!");
     renderAdmin();
   }
   function setPw() {
