@@ -59,9 +59,31 @@ export default {
       }
     }
 
-    // Servir archivos estáticos (index.html, etc.)
+    // Rutas limpias SPA (/admin, etc.): servir index.html directamente con status 200
+    const cleanPath = url.pathname.replace(/\/+$/, "");
+    if (cleanPath === "/admin" || cleanPath === "/info") {
+      if (env && env.ASSETS && typeof env.ASSETS.fetch === "function") {
+        const rootUrl = new URL("/", request.url);
+        const res = await env.ASSETS.fetch(new Request(rootUrl, request));
+        return new Response(res.body, {
+          status: 200,
+          headers: res.headers
+        });
+      }
+    }
+
+    // Servir archivos estáticos (index.html, imágenes, fuentes, etc.)
     if (env && env.ASSETS && typeof env.ASSETS.fetch === "function") {
-      return env.ASSETS.fetch(request);
+      const res = await env.ASSETS.fetch(request);
+      if (res.status === 404 && !url.pathname.includes(".")) {
+        const rootUrl = new URL("/", request.url);
+        const fallbackRes = await env.ASSETS.fetch(new Request(rootUrl, request));
+        return new Response(fallbackRes.body, {
+          status: 200,
+          headers: fallbackRes.headers
+        });
+      }
+      return res;
     }
     return fetch(request);
   }

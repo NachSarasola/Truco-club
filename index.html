@@ -308,13 +308,33 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
   function regionById(id) { for (var i = 0; i < state.meta.regions.length; i++) if (state.meta.regions[i].id === id) return state.meta.regions[i]; return null; }
   function currentRegion() { return regionById(view.region) || state.meta.regions[0]; }
 
-  function initFromUrl() {
+  function currentRoute() {
+    var path = (location.pathname || "").replace(/^\/+|\/+$/g, "").toLowerCase();
     var h = (location.hash || "").replace(/^#/, "").toLowerCase();
-    if (h === "admin") view.mode = "admin";
-    else if (h === "info") view.mode = "info";
-    else if (regionById(h)) view.mode = "board";
-    else view.mode = "home";
-    var want = regionById(h) ? h : null;
+    if (path === "admin" || h === "admin") return "admin";
+    if (path === "info" || h === "info") return "info";
+    if (h && regionById(h)) return h;
+    if (path && regionById(path)) return path;
+    return "home";
+  }
+
+  function initFromUrl() {
+    var r = currentRoute();
+    if (r === "admin") {
+      view.mode = "admin";
+      try {
+        if (location.pathname !== "/admin" || location.hash) {
+          history.replaceState(null, "", "/admin");
+        }
+      } catch (e) {}
+    } else if (r === "info") {
+      view.mode = "info";
+    } else if (regionById(r)) {
+      view.mode = "board";
+    } else {
+      view.mode = "home";
+    }
+    var want = regionById(r) ? r : null;
     if (!want) { try { want = localStorage.getItem(LS.region); } catch (e) {} }
     view.region = regionById(want) ? want : state.meta.defaultRegion;
     view.adminRegion = view.region;
@@ -356,7 +376,12 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
   }
 
   function render() {
-    if (view.mode === "admin") return view.authed ? renderAdmin() : renderGate();
+    if (view.mode === "admin") {
+      try {
+        if (location.pathname !== "/admin" || location.hash) history.replaceState(null, "", "/admin");
+      } catch (e) {}
+      return view.authed ? renderAdmin() : renderGate();
+    }
     if (view.mode === "info") return renderInfo();
     if (view.mode === "home") return renderHome();
     renderBoard();
@@ -393,17 +418,29 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
         else if (a === "info") goInfo();
         else if (a === "board") goBoard();
         else if (a === "theme") toggleTheme();
-        else if (a === "admin") { view.mode = "admin"; setHash("admin"); render(); }
+        else if (a === "admin") {
+          view.mode = "admin";
+          try { history.pushState(null, "", "/admin"); } catch (e) { location.href = "/admin"; }
+          render();
+        }
       });
     });
   }
-  function goHome() { view.mode = "home"; setHash("home"); renderHome(); }
-  function goInfo() { view.mode = "info"; setHash("info"); renderInfo(); }
+  function goHome() {
+    view.mode = "home";
+    try { history.pushState(null, "", "/"); } catch (e) { location.href = "/"; }
+    renderHome();
+  }
+  function goInfo() {
+    view.mode = "info";
+    try { history.pushState(null, "", "/info"); } catch (e) { setHash("info"); }
+    renderInfo();
+  }
   function goBoard() {
     view.mode = "board";
     if (!regionById(view.region)) view.region = state.meta.defaultRegion;
     try { localStorage.setItem(LS.region, view.region); } catch (e) {}
-    setHash(view.region);
+    try { history.pushState(null, "", "/" + (view.region ? "#" + view.region : "")); } catch (e) { setHash(view.region); }
     renderBoard();
   }
 
@@ -543,13 +580,22 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
     if ("#" + h === location.hash) return;
     try { history.replaceState(null, "", "#" + h); } catch (e) { location.hash = h; }
   }
-  window.addEventListener("hashchange", function () {
-    var h = (location.hash || "").replace(/^#/, "").toLowerCase();
-    if (h === "admin") { view.mode = "admin"; render(); return; }
-    if (h === "info") { view.mode = "info"; renderInfo(); return; }
-    if (regionById(h)) { view.mode = "board"; view.region = h; renderBoard(); return; }
+  function handleNav() {
+    var r = currentRoute();
+    if (r === "admin") {
+      view.mode = "admin";
+      try {
+        if (location.pathname !== "/admin" || location.hash) history.replaceState(null, "", "/admin");
+      } catch (e) {}
+      render();
+      return;
+    }
+    if (r === "info") { view.mode = "info"; renderInfo(); return; }
+    if (regionById(r)) { view.mode = "board"; view.region = r; renderBoard(); return; }
     view.mode = "home"; renderHome();
-  });
+  }
+  window.addEventListener("popstate", handleNav);
+  window.addEventListener("hashchange", handleNav);
 
   function renderGate() {
     app.innerHTML =
@@ -575,7 +621,12 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
     app.querySelector('[data-a="back"]').addEventListener("click", backToBoard);
     setTimeout(function () { var p = app.querySelector("#pw"); if (p) p.focus(); }, 30);
   }
-  function backToBoard() { view.mode = "board"; view.msg = null; setHash(view.region); renderBoard(); }
+  function backToBoard() {
+    view.mode = "board";
+    view.msg = null;
+    try { history.pushState(null, "", "/" + (view.region ? "#" + view.region : "")); } catch (e) { location.href = "/"; }
+    renderBoard();
+  }
 
   function loadDraft() {
     try {
@@ -594,8 +645,7 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
   function discardDraft() {
     if (!confirm("¿Descartar el borrador local y volver a los últimos datos publicados?")) return;
     try { localStorage.removeItem(LS.draft); } catch (e) {}
-    try { location.hash = "admin"; } catch (e) {}
-    location.reload();
+    location.href = "/admin";
   }
 
   function renderAdmin() {
