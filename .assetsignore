@@ -1,0 +1,5 @@
+src/
+wrangler.toml
+README.md
+functions/
+.git*
