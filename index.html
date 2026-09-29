@@ -50,7 +50,10 @@ a{color:var(--accent)}
 ::selection{background:var(--brand-soft)}
 @media (prefers-reduced-motion:reduce){*{transition-duration:.01ms!important;animation-duration:.01ms!important;animation-delay:0ms!important}}
 
-.wrap{max-width:860px;margin:clamp(10px,3vw,26px) auto;background:var(--card);color:var(--ink);border-radius:clamp(12px,3vw,var(--radius-lg));border:clamp(2px,.6vw,3px) solid var(--card-border);padding:0 0 6px}
+.wrap{max-width:860px;margin:clamp(10px,3vw,26px) auto;background:var(--card);color:var(--ink);border-radius:clamp(12px,3vw,var(--radius-lg));border:clamp(2px,.6vw,3px) solid var(--card-border);padding:0 0 6px;animation:view-enter .22s cubic-bezier(.16,1,.3,1) both;will-change:opacity,transform}
+.wrap.view-exit{animation:view-exit .11s cubic-bezier(.4,0,1,1) both!important;pointer-events:none}
+@keyframes view-enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes view-exit{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-6px)}}
 .wrap>*{padding-left:clamp(14px,3.5vw,30px);padding-right:clamp(14px,3.5vw,30px)}
 .admin.wrap{max-width:660px;padding-bottom:110px}
 
@@ -105,7 +108,9 @@ footer.foot .lnks{display:flex;gap:14px;white-space:nowrap}
 :root[data-theme="dark"] .madeby .txt .k{color:var(--ink-3)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .madeby .txt .k{color:var(--ink-3)}}
 .madeby .txt .v{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica Neue,Arial,sans-serif;font-size:14px;font-weight:700;color:var(--ink);line-height:1}
-.lk{appearance:none;background:none;border:0;padding:0;font:inherit;color:var(--accent);cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.lk{appearance:none;background:none;border:0;padding:0;font:inherit;color:var(--accent);cursor:pointer;text-decoration:underline;text-underline-offset:2px;transition:opacity .15s}
+.lk:hover{opacity:.8}
+.lk:active{opacity:.6}
 .lk:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
 .admin, .gate{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;letter-spacing:-.01em}
@@ -148,6 +153,7 @@ footer.foot .lnks{display:flex;gap:14px;white-space:nowrap}
 .quick-bar{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;padding-top:10px;border-top:1px solid var(--rule-2);align-items:center}
 .btn{appearance:none;font-weight:700;font-size:12.5px;padding:8px 16px;border-radius:var(--radius-pill);border:1.5px solid var(--ink);background:var(--brand);color:var(--brand-ink);cursor:pointer;transition:transform .1s,opacity .15s}
 .btn:hover{opacity:.95}
+.btn:active{transform:scale(.97)}
 .btn.o{background:var(--card);border-color:var(--rule-2);color:var(--ink)}
 .btn.o:hover{border-color:var(--ink-3)}
 .btn.s{padding:5px 11px;font-size:11.5px}
@@ -180,7 +186,9 @@ table.grid input[type=number]{width:68px;padding:5px 7px;text-align:right;font-s
 details.bk summary{font-size:12px;font-weight:600;color:var(--accent);cursor:pointer}
 code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
 
-.h1btn{appearance:none;background:none;border:0;padding:0;margin:0;font:inherit;color:inherit;text-align:left;cursor:pointer}
+.h1btn{appearance:none;background:none;border:0;padding:0;margin:0;font:inherit;color:inherit;text-align:left;cursor:pointer;transition:opacity .15s}
+.h1btn:hover{opacity:.85}
+.h1btn:active{opacity:.7;transform:scale(.99)}
 .h1btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .atop .lnks,footer.foot .lnks{display:flex;gap:14px;white-space:nowrap;align-items:center}
 
@@ -400,7 +408,9 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
     var n = isDark() ? "light" : "dark";
     document.documentElement.setAttribute("data-theme", n);
     try { localStorage.setItem(LS.theme, n); } catch (e) {}
-    render();
+    app.querySelectorAll('[data-a="theme"]').forEach(function (b) {
+      b.textContent = n === "dark" ? "Tema claro" : "Tema oscuro";
+    });
   }
 
   function render() {
@@ -437,6 +447,24 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
       '</span>' +
     '</a>';
   }
+  var navTimer = null;
+  function transitionNav(fn) {
+    if (navTimer) { clearTimeout(navTimer); navTimer = null; }
+    var cur = app.querySelector(".wrap");
+    var prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!cur || prefersReduced) {
+      window.scrollTo(0, 0);
+      fn();
+      return;
+    }
+    cur.classList.add("view-exit");
+    navTimer = setTimeout(function () {
+      navTimer = null;
+      window.scrollTo(0, 0);
+      fn();
+    }, 110);
+  }
+
   function navClicks(root) {
     root.querySelectorAll("[data-a]").forEach(function (b) {
       var a = b.getAttribute("data-a");
@@ -447,29 +475,41 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
         else if (a === "board") goBoard();
         else if (a === "theme") toggleTheme();
         else if (a === "admin") {
-          view.mode = "admin";
-          try { history.pushState(null, "", "/admin"); } catch (e) { location.href = "/admin"; }
-          render();
+          if (view.mode === "admin") return;
+          transitionNav(function () {
+            view.mode = "admin";
+            try { history.pushState(null, "", "/admin"); } catch (e) { location.href = "/admin"; }
+            render();
+          });
         }
       });
     });
   }
   function goHome() {
-    view.mode = "home";
-    try { history.pushState(null, "", "/"); } catch (e) { location.href = "/"; }
-    renderHome();
+    if (view.mode === "home") return;
+    transitionNav(function () {
+      view.mode = "home";
+      try { history.pushState(null, "", "/"); } catch (e) { location.href = "/"; }
+      renderHome();
+    });
   }
   function goInfo() {
-    view.mode = "info";
-    try { history.pushState(null, "", "/info"); } catch (e) { setHash("info"); }
-    renderInfo();
+    if (view.mode === "info") return;
+    transitionNav(function () {
+      view.mode = "info";
+      try { history.pushState(null, "", "/info"); } catch (e) { setHash("info"); }
+      renderInfo();
+    });
   }
   function goBoard() {
-    view.mode = "board";
-    if (!regionById(view.region)) view.region = state.meta.defaultRegion;
-    try { localStorage.setItem(LS.region, view.region); } catch (e) {}
-    try { history.pushState(null, "", "/" + (view.region ? "#" + view.region : "")); } catch (e) { setHash(view.region); }
-    renderBoard();
+    if (view.mode === "board") return;
+    transitionNav(function () {
+      view.mode = "board";
+      if (!regionById(view.region)) view.region = state.meta.defaultRegion;
+      try { localStorage.setItem(LS.region, view.region); } catch (e) {}
+      try { history.pushState(null, "", "/" + (view.region ? "#" + view.region : "")); } catch (e) { setHash(view.region); }
+      renderBoard();
+    });
   }
 
   function renderHome() {
@@ -623,16 +663,38 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
   function handleNav() {
     var r = currentRoute();
     if (r === "admin") {
-      view.mode = "admin";
-      try {
-        if (location.pathname !== "/admin" || location.hash) history.replaceState(null, "", "/admin");
-      } catch (e) {}
-      render();
+      if (view.mode === "admin") return;
+      transitionNav(function () {
+        view.mode = "admin";
+        try {
+          if (location.pathname !== "/admin" || location.hash) history.replaceState(null, "", "/admin");
+        } catch (e) {}
+        render();
+      });
       return;
     }
-    if (r === "info") { view.mode = "info"; renderInfo(); return; }
-    if (regionById(r)) { view.mode = "board"; view.region = r; renderBoard(); return; }
-    view.mode = "home"; renderHome();
+    if (r === "info") {
+      if (view.mode === "info") return;
+      transitionNav(function () {
+        view.mode = "info";
+        renderInfo();
+      });
+      return;
+    }
+    if (regionById(r)) {
+      if (view.mode === "board" && view.region === r) return;
+      transitionNav(function () {
+        view.mode = "board";
+        view.region = r;
+        renderBoard();
+      });
+      return;
+    }
+    if (view.mode === "home") return;
+    transitionNav(function () {
+      view.mode = "home";
+      renderHome();
+    });
   }
   window.addEventListener("popstate", handleNav);
   window.addEventListener("hashchange", handleNav);
@@ -664,10 +726,12 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
     setTimeout(function () { var p = app.querySelector("#pw"); if (p) p.focus(); }, 30);
   }
   function backToBoard() {
-    view.mode = "board";
-    view.msg = null;
-    try { history.pushState(null, "", "/" + (view.region ? "#" + view.region : "")); } catch (e) { location.href = "/"; }
-    renderBoard();
+    transitionNav(function () {
+      view.mode = "board";
+      view.msg = null;
+      try { history.pushState(null, "", "/" + (view.region ? "#" + view.region : "")); } catch (e) { location.href = "/"; }
+      renderBoard();
+    });
   }
 
   function loadDraft() {
