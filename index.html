@@ -135,6 +135,14 @@ footer.foot .lnks{display:flex;gap:14px;white-space:nowrap}
 .admin input[type=text],.admin input[type=number],.admin input[type=password],.admin select,.admin textarea{width:100%;font-size:13px;color:var(--ink);padding:8px 11px;background:var(--card);border:1px solid var(--rule-2);border-radius:8px;outline:none;transition:border-color .15s,box-shadow .15s}
 .admin input:focus,.admin select:focus,.admin textarea:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(76,122,22,.15)}
 .admin-textarea{min-height:160px;resize:vertical;line-height:1.55;font-family:-apple-system,BlinkMacSystemFont,monospace}
+.plist{display:flex;flex-direction:column;gap:5px;max-height:480px;overflow-y:auto;padding-right:4px}
+.pl{display:flex;align-items:center;gap:8px;padding:5px 8px;background:var(--card);border:1px solid var(--rule-2);border-radius:8px;transition:border-color .15s}
+.pl:hover{border-color:var(--rule)}
+.pl .idx{font-size:11.5px;font-weight:700;color:var(--ink-3);min-width:26px;text-align:right}
+.pl input[type=text]{flex:1;border:0;background:transparent;padding:4px 6px;font-size:13px;font-weight:600;color:var(--ink);border-radius:4px;box-shadow:none}
+.pl input[type=text]:focus{border:1px solid var(--accent);background:var(--card);box-shadow:0 0 0 2px rgba(76,122,22,.15)}
+.pl .rm{appearance:none;background:none;border:0;color:var(--down);font-size:11.5px;font-weight:600;padding:4px 8px;border-radius:6px;cursor:pointer;opacity:.6;transition:all .15s}
+.pl .rm:hover{opacity:1;background:rgba(217,4,41,.08)}
 
 .quick-bar{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;padding-top:10px;border-top:1px solid var(--rule-2);align-items:center}
 .btn{appearance:none;font-weight:700;font-size:12.5px;padding:8px 16px;border-radius:var(--radius-pill);border:1.5px solid var(--ink);background:var(--brand);color:var(--brand-ink);cursor:pointer;transition:transform .1s,opacity .15s}
@@ -679,9 +687,9 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
 
     var pairLines = state.pairs.map(function (p, i) {
       return '<div class="pl" data-pid="' + esc(p.id) + '">' +
-        '<span class="idx">' + (i + 1) + '</span>' +
+        '<span class="idx">' + (i + 1) + '.</span>' +
         '<input type="text" data-b="pair.' + esc(p.id) + '.name" value="' + esc(p.name) + '" placeholder="Nombre del equipo" aria-label="Equipo ' + (i + 1) + '">' +
-        '<button class="rm" type="button" data-a="delpair" data-pid="' + esc(p.id) + '" aria-label="Quitar equipo ' + (i + 1) + '">Quitar</button>' +
+        '<button class="rm" type="button" data-a="delpair" data-pid="' + esc(p.id) + '" aria-label="Quitar equipo ' + (i + 1) + '" title="Quitar equipo">✕ Quitar</button>' +
       "</div>";
     }).join("");
 
@@ -796,29 +804,73 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
           '<span style="font-size:11.5px;color:var(--ink-3)">Suma los puntos a la tabla y prepara la siguiente fecha.</span>' +
         '</div>';
     } else if (tab === "equipos") {
-      tabContent =
-        '<div class="admin-card">' +
-          '<div class="admin-card-head">' +
-            '<div>' +
-              '<h2 class="admin-card-title">Carga Rápida de Equipos</h2>' +
-              '<div class="admin-card-sub">Copiá y pegá la lista desde WhatsApp o Excel (un equipo por línea).</div>' +
+      var hasTeamsBackup = false;
+      try { hasTeamsBackup = !!localStorage.getItem("ligaTruco.teamsBackup"); } catch (e) {}
+
+      if (state.pairs.length === 0) {
+        tabContent =
+          '<div class="admin-card">' +
+            '<div class="admin-card-head">' +
+              '<div>' +
+                '<h2 class="admin-card-title">Cargar Equipos Iniciales</h2>' +
+                '<div class="admin-card-sub">Pegá o escribí la lista de equipos participantes (un equipo por renglón). Podés copiar y pegar directo desde WhatsApp o Excel.</div>' +
+              '</div>' +
+              '<span class="admin-pill-badge">0 equipos</span>' +
             '</div>' +
-            '<span class="admin-pill-badge">' + state.pairs.length + ' equipos</span>' +
+            '<textarea id="teamsTextareaInitial" class="admin-textarea" placeholder="1. Los Cuervos&#10;2. Palo y A la Bolsa&#10;3. Birra Truco Club"></textarea>' +
+            '<div style="display:flex;gap:8px;margin-top:12px;align-items:center;flex-wrap:wrap">' +
+              '<button class="btn" type="button" data-a="saveteamsinitial">💾 Registrar lista definitiva</button>' +
+              (hasTeamsBackup ? '<button class="btn o s" type="button" data-a="undoteams" style="color:var(--accent)">↩️ Restaurar lista anterior</button>' : '') +
+              '<span style="font-size:11px;color:var(--ink-3);margin-left:auto">Limpia números y viñetas automáticamente ("1. ", "02) ", etc.).</span>' +
+            '</div>' +
+          '</div>';
+      } else {
+        tabContent =
+          '<div class="admin-card">' +
+            '<div class="admin-card-head">' +
+              '<div>' +
+                '<h2 class="admin-card-title">🏆 Equipos Registrados Definitivos</h2>' +
+                '<div class="admin-card-sub">Lista oficial del torneo (' + state.pairs.length + ' equipos). Los nombres se guardan automáticamente al editarlos aquí.</div>' +
+              '</div>' +
+              '<div style="display:flex;gap:8px;align-items:center">' +
+                '<input type="search" id="qteams" placeholder="🔍 Buscar equipo..." style="max-width:180px;font-size:12px;padding:4px 8px">' +
+                '<span class="admin-pill-badge">' + state.pairs.length + ' equipos</span>' +
+              '</div>' +
+            '</div>' +
+            '<div class="plist" id="plistteams">' + pairLines + '</div>' +
+            '<div style="display:flex;gap:10px;margin-top:14px;align-items:center;flex-wrap:wrap;padding-top:12px;border-top:1px solid var(--rule-2)">' +
+              '<button class="btn o s" type="button" data-a="addpair">➕ Agregar 1 equipo</button>' +
+              (hasTeamsBackup ? '<button class="btn o s" type="button" data-a="undoteams" style="color:var(--accent)">↩️ Deshacer último cambio</button>' : '') +
+              '<span style="font-size:11px;color:var(--ink-3);margin-left:auto">Podés corregir los nombres directamente en cada casilla.</span>' +
+            '</div>' +
           '</div>' +
-          '<textarea id="teamsTextarea" class="admin-textarea" placeholder="Los Cuervos&#10;Palo y A la Bolsa&#10;Birra Truco Club">' + esc(teamsText) + '</textarea>' +
-          '<div style="display:flex;gap:8px;margin-top:12px;align-items:center;flex-wrap:wrap">' +
-            '<button class="btn" type="button" data-a="saveteamsbulk">💾 Guardar lista de equipos</button>' +
-            '<button class="btn o s" type="button" data-a="clearteamstext" style="color:var(--down)">Borrar texto</button>' +
-            '<span style="font-size:11px;color:var(--ink-3);margin-left:auto">Limpia números y viñetas automáticamente ("1. ", "2) ", etc.) y conserva los puntos si ya jugaron.</span>' +
+
+          '<div class="admin-card">' +
+            '<div class="admin-card-head">' +
+              '<div>' +
+                '<h2 class="admin-card-title">➕ Sumar más equipos a la lista</h2>' +
+                '<div class="admin-card-sub">Pegá equipos adicionales (uno por renglón). Se sumarán a los ' + state.pairs.length + ' existentes sin borrar ninguno.</div>' +
+              '</div>' +
+            '</div>' +
+            '<textarea id="teamsTextareaAppend" class="admin-textarea" style="min-height:90px" placeholder="Nombre de Equipo Nuevo 1&#10;Nombre de Equipo Nuevo 2"></textarea>' +
+            '<div style="display:flex;gap:8px;margin-top:12px;align-items:center;flex-wrap:wrap">' +
+              '<button class="btn" type="button" data-a="appendteams">➕ Incorporar a la lista</button>' +
+              '<button class="btn o s" type="button" data-a="clearappendtext">Limpiar campo</button>' +
+              '<span style="font-size:11px;color:var(--ink-3);margin-left:auto">Omite automáticamente nombres repetidos.</span>' +
+            '</div>' +
           '</div>' +
-        '</div>' +
-        (state.pairs.length > 0 ? (
+
           '<details class="bk admin-card" style="padding:14px 18px">' +
-            '<summary style="font-size:12.5px;font-weight:700;color:var(--ink);cursor:pointer">✏️ Ver o editar equipos uno por uno (' + state.pairs.length + ')</summary>' +
-            '<div class="plist" style="margin-top:12px">' + pairLines + '</div>' +
-            '<div style="margin-top:10px"><button class="btn o s" type="button" data-a="addpair">+ Agregar equipo</button></div>' +
-          '</details>'
-        ) : "");
+            '<summary style="font-size:12.5px;font-weight:700;color:var(--ink-3);cursor:pointer">⚠️ Opciones avanzadas: Reemplazar lista completa</summary>' +
+            '<div style="margin-top:12px">' +
+              '<p style="font-size:11.5px;color:var(--ink-2);margin:0 0 8px">Solo usá esto si querés reescribir todos los equipos por un texto nuevo:</p>' +
+              '<textarea id="teamsTextareaReplace" class="admin-textarea" style="min-height:120px">' + esc(teamsText) + '</textarea>' +
+              '<div style="display:flex;gap:8px;margin-top:10px;align-items:center">' +
+                '<button class="btn o s" type="button" data-a="replaceteams" style="color:var(--down);border-color:var(--down)">⚠️ Sobrescribir todos los equipos</button>' +
+              '</div>' +
+            '</div>' +
+          '</details>';
+      }
     } else if (tab === "tabla") {
       tabContent =
         '<div class="admin-card">' +
@@ -1026,6 +1078,19 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
       });
     }
 
+    var qt = root.querySelector("#qteams");
+    if (qt) {
+      qt.addEventListener("input", function () {
+        var val = qt.value.toLowerCase().trim();
+        var rows = root.querySelectorAll("#plistteams .pl");
+        rows.forEach(function (row) {
+          var inp = row.querySelector("input");
+          var txt = (inp ? inp.value : "").toLowerCase();
+          row.style.display = (!val || txt.indexOf(val) >= 0) ? "" : "none";
+        });
+      });
+    }
+
     root.addEventListener("keydown", function (e) {
       if (e.key !== "Enter") return;
       var el = e.target;
@@ -1047,6 +1112,14 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
       if (a === "back") backToBoard();
       else if (a === "closemsg") { var mm = b.parentNode; if (mm && mm.parentNode) mm.parentNode.removeChild(mm); }
       else if (a === "discard") discardDraft();
+      else if (a === "saveteamsinitial") saveTeamsInitial();
+      else if (a === "appendteams") appendTeams();
+      else if (a === "clearappendtext") {
+        var ta = root.querySelector("#teamsTextareaAppend");
+        if (ta) { ta.value = ""; ta.focus(); }
+      }
+      else if (a === "replaceteams") replaceTeams();
+      else if (a === "undoteams") undoTeams();
       else if (a === "saveteamsbulk") saveTeamsBulk();
       else if (a === "clearteamstext") clearTeamsText();
       else if (a === "addpair") addPair();
@@ -1088,7 +1161,36 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
   }
   function flash(t) { var s = app.querySelector(".abar .st"); if (s) { s.textContent = t; s.className = "st k"; } }
 
+  function backupTeams() {
+    try {
+      var snap = {
+        pairs: JSON.parse(JSON.stringify(state.pairs)),
+        standings: JSON.parse(JSON.stringify(state.standings))
+      };
+      localStorage.setItem("ligaTruco.teamsBackup", JSON.stringify(snap));
+    } catch (e) {}
+  }
+  function undoTeams() {
+    try {
+      var raw = localStorage.getItem("ligaTruco.teamsBackup");
+      if (!raw) { flash("No hay cambios anteriores para deshacer."); return; }
+      var snap = JSON.parse(raw);
+      if (!snap || !snap.pairs) return;
+      if (!confirm("¿Deseas restaurar la lista de equipos al estado anterior?")) return;
+      backupTeams();
+      state.pairs = snap.pairs;
+      state.standings = snap.standings;
+      view.dirty = true;
+      saveDraft();
+      flash("✔ Lista de equipos restaurada.");
+      renderAdmin();
+    } catch (e) {
+      flash("Error al restaurar.");
+    }
+  }
+
   function addPair() {
+    backupTeams();
     var k = state.pairs.length + 1, id;
     do { id = "p" + (k < 10 ? "0" : "") + k; k++; } while (state.pairs.some(function (p) { return p.id === id; }));
     state.pairs.push({ id: id, name: "" });
@@ -1098,10 +1200,17 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
     renderAdmin();
   }
   function delPair(pid) {
-    if (!pid || !confirm("¿Quitar este equipo y sus resultados?")) return;
+    var pName = "";
+    for (var i = 0; i < state.pairs.length; i++) {
+      if (state.pairs[i].id === pid) { pName = state.pairs[i].name || "Equipo " + (i + 1); break; }
+    }
+    if (!pid || !confirm("¿Quitar al equipo \"" + pName + "\" de la lista del torneo y eliminar sus resultados?")) return;
+    backupTeams();
     state.pairs = state.pairs.filter(function (p) { return p.id !== pid; });
     state.meta.regions.forEach(function (r) { if (state.standings[r.id]) delete state.standings[r.id][pid]; });
-    view.dirty = true; saveDraft(); renderAdmin();
+    view.dirty = true; saveDraft();
+    flash("Equipo \"" + pName + "\" quitado.");
+    renderAdmin();
   }
   function applyFecha() {
     var region = view.adminRegion, picks = view.fechaPicks || {};
@@ -1129,12 +1238,8 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
     s = s.replace(/^\s*#?\d+\s*[-.):\t]+\s*/, "").trim();
     return s;
   }
-  function clearTeamsText() {
-    var ta = app.querySelector("#teamsTextarea");
-    if (ta) { ta.value = ""; ta.focus(); }
-  }
-  function saveTeamsBulk() {
-    var ta = app.querySelector("#teamsTextarea");
+  function saveTeamsInitial() {
+    var ta = app.querySelector("#teamsTextareaInitial");
     if (!ta) return;
     var rawLines = ta.value.split("\n");
     var parsed = [];
@@ -1142,18 +1247,83 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
       var c = cleanTeamName(l);
       if (c) parsed.push(c);
     });
-
     if (!parsed.length) {
-      if (!confirm("¿Deseas vaciar la lista de equipos y dejarla en 0?")) return;
-      state.pairs = [];
-      state.standings = {};
-      state.meta.regions.forEach(function (r) { state.standings[r.id] = {}; });
-      view.dirty = true; saveDraft();
-      flash("Se borraron todos los equipos.");
-      renderAdmin();
+      flash("⚠️ Escribí o pegá al menos un equipo antes de guardar.");
       return;
     }
-
+    backupTeams();
+    var newPairs = [];
+    var newStandings = {};
+    state.meta.regions.forEach(function (r) { newStandings[r.id] = {}; });
+    parsed.forEach(function (name, i) {
+      var id = "p" + (i + 1 < 10 ? "0" : "") + (i + 1);
+      newPairs.push({ id: id, name: name });
+      state.meta.regions.forEach(function (r) {
+        newStandings[r.id][id] = blank();
+      });
+    });
+    state.pairs = newPairs;
+    state.standings = newStandings;
+    view.dirty = true;
+    saveDraft();
+    flash("✔ Se guardaron los " + newPairs.length + " equipos como lista definitiva.");
+    renderAdmin();
+  }
+  function appendTeams() {
+    var ta = app.querySelector("#teamsTextareaAppend");
+    if (!ta) return;
+    var rawLines = ta.value.split("\n");
+    var parsed = [];
+    rawLines.forEach(function (l) {
+      var c = cleanTeamName(l);
+      if (c) parsed.push(c);
+    });
+    if (!parsed.length) {
+      flash("⚠️ Escribí al menos un equipo en el cuadro para sumar.");
+      return;
+    }
+    backupTeams();
+    var added = 0;
+    var skipped = 0;
+    parsed.forEach(function (name) {
+      var exists = state.pairs.some(function (p) {
+        return p.name.trim().toLowerCase() === name.toLowerCase();
+      });
+      if (exists) {
+        skipped++;
+        return;
+      }
+      var k = state.pairs.length + 1, id;
+      do { id = "p" + (k < 10 ? "0" : "") + k; k++; } while (state.pairs.some(function (p) { return p.id === id; }));
+      state.pairs.push({ id: id, name: name });
+      state.meta.regions.forEach(function (r) { state.standings[r.id][id] = blank(); });
+      added++;
+    });
+    ta.value = "";
+    view.dirty = true;
+    saveDraft();
+    var msg = "✔ Se sumaron " + added + " nuevos equipos.";
+    if (skipped > 0) msg += " (" + skipped + " repetidos omitidos).";
+    flash(msg);
+    renderAdmin();
+  }
+  function replaceTeams() {
+    var ta = app.querySelector("#teamsTextareaReplace");
+    if (!ta) return;
+    var rawLines = ta.value.split("\n");
+    var parsed = [];
+    rawLines.forEach(function (l) {
+      var c = cleanTeamName(l);
+      if (c) parsed.push(c);
+    });
+    if (!parsed.length) {
+      alert("El cuadro de texto está vacío. No se realizaron cambios para proteger tu lista de equipos.");
+      return;
+    }
+    if (!confirm("⚠️ ¿Estás seguro de REEMPLAZAR todos los equipos existentes por estos " + parsed.length + " equipos?")) {
+      return;
+    }
+    backupTeams();
     var oldPairs = state.pairs || [];
     var oldStandings = state.standings || {};
     var newPairs = [];
@@ -1184,11 +1354,17 @@ code{font-size:11px;background:var(--card-2);padding:1px 4px;border-radius:4px}
 
     state.pairs = newPairs;
     state.standings = newStandings;
-    state.meta.demo = false;
     view.dirty = true;
     saveDraft();
-    flash("✔ Se guardaron " + newPairs.length + " equipos correctamente. ¡Recordá presionar 'Publicar en vivo'!");
+    flash("✔ Lista actualizada a " + newPairs.length + " equipos.");
     renderAdmin();
+  }
+  function clearTeamsText() {
+    var ta = app.querySelector("#teamsTextareaReplace") || app.querySelector("#teamsTextareaInitial");
+    if (ta) { ta.value = ""; ta.focus(); }
+  }
+  function saveTeamsBulk() {
+    replaceTeams();
   }
   function setPw() {
     var a = app.querySelector("#p1").value, b = app.querySelector("#p2").value, pm = app.querySelector("#pm");
